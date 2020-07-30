@@ -10,7 +10,6 @@ import Photography from "./views/Photography.vue";
 Vue.use(Router);
 
 export default new Router({
-
   linkExactActiveClass: "active",
   routes: [
     {
@@ -62,6 +61,3 @@ export default new Router({
     }
   }
 });
-
-
-
