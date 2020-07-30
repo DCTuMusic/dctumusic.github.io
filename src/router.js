@@ -10,7 +10,7 @@ import Photography from "./views/Photography.vue";
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
+  // mode: "history",
   linkExactActiveClass: "active",
   routes: [
     {
