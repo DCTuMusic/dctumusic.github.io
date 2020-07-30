@@ -10,7 +10,7 @@ import Photography from "./views/Photography.vue";
 Vue.use(Router);
 
 export default new Router({
-  // mode: "history",
+
   linkExactActiveClass: "active",
   routes: [
     {
@@ -65,14 +65,3 @@ export default new Router({
 
 
 
-// export default router;
-
-// router.beforeEach((to, from, next) => {
-//     // Redirect if fullPath begins with a hash (ignore hashes later in path)
-//     if (to.fullPath.substr(0,2) === "/#") {
-//         const path = to.fullPath.substr(2);
-//         next(path);
-//         return;
-//     }
-//     next();
-// });
