@@ -3,8 +3,8 @@ export default {
     // ---------------------------------
     {
       projectname: "women",
-      image: "women.jpg", 
-      videos: [
+      image: "women.jpg",
+       videos: [
         {
           name: "movie",
           url: "IUl60EPFjxw"
@@ -35,7 +35,20 @@ export default {
     {
       projectname: "Night_Light",
       image: "night_light.jpg",
-     
+      videos: [
+        {
+          name: "opening",
+          url: "F4g9fwz4xvs"
+        },
+        {
+          name: "roll_cut",
+          url: "qABsTcw7OY0"
+        },
+        {
+          name: "trailer",
+          url: "k4L_N78SO5I"
+        }
+      ],
       information: [
         {
           language: "chinese",
