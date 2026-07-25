@@ -6,5 +6,3 @@ cover: "./cover.png"
 images: ["01.png","07.png"]
 order: 1
 ---
-
-Placeholder entry — replace with a real personal / experimental sound art piece: description, credits, and images.

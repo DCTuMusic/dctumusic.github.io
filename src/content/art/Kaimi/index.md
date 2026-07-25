@@ -16,5 +16,3 @@ summaryZh: |
 
 
 ---
-
-Placeholder entry — replace with a real personal / experimental sound art piece: description, credits, and images.
