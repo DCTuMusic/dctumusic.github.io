@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
+const t = useTranslations(lang);
+---
+
+<Layout title="Design Process — DC">
+	<main class="flex min-h-[70vh] items-center justify-center pt-28">
+		<div class="mx-auto max-w-2xl px-6 text-center md:px-10">
+			<h1 class="font-display text-3xl text-paper sm:text-4xl">{t('process.heading')}</h1>
+			<p class="mt-6 text-paper-dim">
+				{t('process.body')}
+			</p>
+		</div>
+	</main>
+</Layout>

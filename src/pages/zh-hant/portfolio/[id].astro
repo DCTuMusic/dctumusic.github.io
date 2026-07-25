@@ -1,0 +1,178 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import { getEmbedStyle } from '../../../lib/embed';
+import { translateTag } from '../../../data/tags';
+import { useTranslations } from '../../../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import Lightbox from '../../../components/Lightbox.astro';
+
+export async function getStaticPaths() {
+	const allWork = await getCollection('portfolio');
+	return allWork.map((entry) => ({
+		params: { id: entry.id },
+		props: { entry },
+	}));
+}
+
+const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
+const t = useTranslations(lang);
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const {
+	title,
+	titleZh,
+	client,
+	clientZh,
+	year,
+	role,
+	roleZh,
+	mediaType,
+	musicGenre,
+	cover,
+	embeds,
+	embedsGrid,
+	gallery,
+	summary,
+	summaryZh,
+	credits,
+} = entry.data;
+
+const displayTitle = (lang === 'zh-Hant' && titleZh) || title;
+const displayClient = (lang === 'zh-Hant' && clientZh) || client;
+const displayRole = (lang === 'zh-Hant' && roleZh) || role;
+const displaySummary = (lang === 'zh-Hant' && summaryZh) || summary;
+
+const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: image, width: 1800 })));
+---
+
+<Layout title={`${displayTitle} — DC`} description={displaySummary}>
+	<main class="pt-28 pb-24 md:pb-32">
+		<div class="mx-auto max-w-[90rem] px-6 md:px-10">
+			<a href={getRelativeLocaleUrl(lang, '/portfolio')} class="text-sm text-paper-dim hover:text-accent-soft">
+				← {t('nav.portfolio')}
+			</a>
+
+			<h1 class="font-display mt-6 text-3xl text-paper sm:text-4xl">{displayTitle}</h1>
+
+			<div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-paper-dim">
+				{displayClient && <span>{displayClient}</span>}
+				<span>{year}</span>
+				{displayRole && <span>{displayRole}</span>}
+			</div>
+
+			<div class="mt-3 flex flex-wrap gap-2">
+				{
+					[...mediaType, ...musicGenre].map((tag) => (
+						<span class="rounded-full border border-line px-3 py-1 text-xs text-paper-dim">
+							{translateTag(tag, lang)}
+						</span>
+					))
+				}
+			</div>
+
+			{
+				embeds.length > 0 ? (
+					<div class:list={['mt-10', embedsGrid ? 'grid gap-6 sm:grid-cols-2' : 'space-y-6']}>
+						{embeds.map((embed) => (
+							<div
+								class="embed-frame relative mx-auto max-w-full overflow-hidden rounded-lg border border-line bg-ink-soft"
+								style={getEmbedStyle(embed)}
+							>
+								<Fragment set:html={embed} />
+							</div>
+						))}
+					</div>
+				) : (
+					<div class="mt-10 overflow-hidden rounded-lg border border-line bg-ink-soft">
+						<Image src={cover} alt={displayTitle} class="w-full" />
+					</div>
+				)
+			}
+
+			{
+				displaySummary ? (
+					<p class="mt-10 text-lg leading-relaxed whitespace-pre-line text-paper-dim">{displaySummary}</p>
+				) : (
+					<p class="mt-10 text-lg leading-relaxed whitespace-pre-line text-paper px-1 py-0.5"></p>
+					// <p class="mt-10 border border-dashed border-line px-6 py-8 text-lg text-paper-dim">
+					// 	簡介文字待補 — 在該作品的 index.md 加入 summary（與 summaryZh）欄位
+					// </p>
+				)
+			}
+
+			{
+				gallery.length > 0 && (
+					<div class="mt-8 grid gap-4 sm:grid-cols-2">
+						{gallery.map((image, i) => (
+							<button
+								type="button"
+								class="lightbox-trigger block cursor-zoom-in overflow-hidden rounded-lg border border-line"
+								data-lightbox-src={galleryFull[i].src}
+								data-lightbox-alt={displayTitle}
+							>
+								<Image src={image} alt="" width={800} class="w-full" />
+							</button>
+						))}
+					</div>
+				)
+			}
+
+			<div class="entry-content mt-10 text-lg leading-relaxed text-paper-dim">
+				<Content />
+			</div>
+
+			{
+				credits.length > 0 && (
+					<div class="mt-12 border-t border-line pt-8">
+						<p class="mb-6 text-xs tracking-[0.2em] text-paper-dim uppercase">Credits</p>
+						<div class="grid-cols-2 grid gap-6 sm:grid-cols-4">
+							{credits.map((credit) => (
+								<div>
+									<p class="text-xs tracking-wide text-paper-dim uppercase">
+										{(lang === 'zh-Hant' && credit.roleZh) || credit.role}
+									</p>
+									<p class="mt-1 text-paper">{(lang === 'zh-Hant' && credit.nameZh) || credit.name}</p>
+								</div>
+							))}
+						</div>
+					</div>
+				)
+			}
+		</div>
+	</main>
+
+	<Lightbox />
+</Layout>
+
+<style>
+	.embed-frame :global(iframe) {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.entry-content :global(p) {
+		margin-top: 1.25em;
+	}
+	.entry-content :global(p:first-child) {
+		margin-top: 0;
+	}
+	.entry-content :global(img) {
+		display: block;
+		width: 100%;
+		margin: 2em 0;
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-line);
+	}
+	.entry-content :global(a) {
+		color: var(--color-paper);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.entry-content :global(a:hover) {
+		color: var(--color-accent-soft);
+	}
+</style>

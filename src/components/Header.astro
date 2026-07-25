@@ -1,0 +1,344 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations } from '../i18n/utils';
+import { languages } from '../i18n/ui';
+
+interface Props {
+	hasHero?: boolean;
+}
+
+const { hasHero = false } = Astro.props;
+
+const lang = (Astro.currentLocale ?? 'en') as keyof typeof languages;
+const t = useTranslations(lang);
+
+const home = getRelativeLocaleUrl(lang, '/');
+
+const navItems = [
+	{ href: getRelativeLocaleUrl(lang, '/'), label: t('nav.home') },
+	{ href: `${home}#about`, label: t('nav.about') },
+	{ href: getRelativeLocaleUrl(lang, '/portfolio'), label: t('nav.portfolio') },
+	{ href: getRelativeLocaleUrl(lang, '/design-process'), label: t('nav.process') },
+	{ href: getRelativeLocaleUrl(lang, '/art'), label: t('nav.art') },
+	{ href: getRelativeLocaleUrl(lang, '/contact'), label: t('nav.contact') },
+];
+
+const leftNav = navItems.slice(0, 3);
+const rightNav = navItems.slice(3);
+
+function switchLangPath(pathname: string, target: string) {
+	const segments = pathname.split('/').filter(Boolean);
+	if (segments[0]?.toLowerCase() === 'zh-hant') segments.shift();
+	const rest = segments.join('/');
+	return target === 'en' ? `/${rest}` : `/zh-hant/${rest}`;
+}
+
+const currentPath = Astro.url.pathname;
+const normalizedCurrentPath = currentPath.replace(/\/$/, '') || '/';
+
+function isActive(href: string) {
+	const path = href.split('#')[0].replace(/\/$/, '') || '/';
+	return path === normalizedCurrentPath;
+}
+---
+
+{
+	hasHero && (
+		<header id="hero-header" class="absolute inset-x-0 top-0 z-40">
+			<div class="mx-auto max-w-6xl px-6 md:px-10">
+				<div class="grid grid-cols-[auto_1fr_auto] items-center gap-4 py-4 lg:hidden">
+					<button
+						id="hero-menu-toggle"
+						aria-label="Open menu"
+						aria-expanded="false"
+						aria-controls="hero-mobile-menu"
+						class="flex flex-col gap-1.5 justify-self-start"
+					>
+						<span class="h-px w-6 bg-paper" />
+						<span class="h-px w-6 bg-paper" />
+					</button>
+					<a
+						href={home}
+						class="font-display justify-self-center text-lg tracking-wide text-paper transition-colors hover:text-accent-soft"
+					>
+						Yen-Hao Tu
+					</a>
+					<div class="flex items-center gap-2 justify-self-end text-xs tracking-wide">
+						{Object.keys(languages).map((code, i) => (
+							<>
+								{i > 0 && <span class="text-paper-dim/40">/</span>}
+								<a
+									href={switchLangPath(currentPath, code)}
+									class={
+										lang === code
+											? 'text-paper'
+											: 'text-paper-dim transition-colors hover:text-accent-soft'
+									}
+								>
+									{code === 'en' ? 'EN' : '中文'}
+								</a>
+							</>
+						))}
+					</div>
+				</div>
+
+				<div class="relative hidden items-center py-4 lg:flex">
+					<div class="flex flex-1 items-center gap-9">
+						<nav class="flex flex-1 items-center justify-end gap-9">
+							{leftNav.map((item) => (
+								<a
+									href={item.href}
+									class:list={[
+										'text-sm tracking-wide transition-colors hover:text-accent-soft',
+										isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
+									]}
+								>
+									{item.label}
+								</a>
+							))}
+						</nav>
+						<a
+							href={home}
+							class="font-display justify-self-center shrink-0 text-lg tracking-wide text-paper transition-colors hover:text-accent-soft"
+						>
+							Yen-Hao Tu
+						</a>
+						<nav class="flex flex-1 items-center justify-start gap-9">
+							{rightNav.map((item) => (
+								<a
+									href={item.href}
+									class:list={[
+										'text-sm tracking-wide transition-colors hover:text-accent-soft',
+										isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
+									]}
+								>
+									{item.label}
+								</a>
+							))}
+						</nav>
+					</div>
+					<div class="absolute inset-y-0 right-0 flex items-center gap-2 text-xs tracking-wide">
+						{Object.keys(languages).map((code, i) => (
+							<>
+								{i > 0 && <span class="text-paper-dim/40">/</span>}
+								<a
+									href={switchLangPath(currentPath, code)}
+									class={
+										lang === code
+											? 'text-paper'
+											: 'text-paper-dim transition-colors hover:text-accent-soft'
+									}
+								>
+									{code === 'en' ? 'EN' : '中文'}
+								</a>
+							</>
+						))}
+					</div>
+				</div>
+			</div>
+
+			<nav id="hero-mobile-menu" class="hidden flex-col gap-1 bg-ink px-6 pb-6 lg:hidden">
+				{navItems.map((item) => (
+					<a
+						href={item.href}
+						class:list={[
+							'hero-mobile-link py-3 text-base transition-colors hover:text-accent-soft',
+							isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
+						]}
+					>
+						{item.label}
+					</a>
+				))}
+			</nav>
+		</header>
+	)
+}
+
+<header
+	id="compact-nav"
+	class:list={[
+		'z-50 bg-ink/90 backdrop-blur-sm transition-transform duration-300',
+		hasHero ? 'fixed inset-x-0 top-0 -translate-y-full' : 'fixed inset-x-0 top-0',
+	]}
+>
+	<!----處理compact nav的地方---->
+	<div class="mx-auto max-w-6xl px-6 md:px-10">
+		{
+			hasHero ? (
+				<div class=" items-center justify-between py-4">
+					<button
+						id="menu-toggle"
+						aria-label="Open menu"
+						aria-expanded="false"
+						aria-controls="mobile-menu"
+						class="flex flex-col gap-1.5 lg:hidden"
+					>
+						<span class="h-px w-6 bg-paper" />
+						<span class="h-px w-6 bg-paper" />
+					</button>
+
+					<div class="hidden items-center justify-center gap-7 lg:flex">
+						{navItems.map((item) => (
+							<a
+								href={item.href}
+								class:list={[
+									'text-sm tracking-wide transition-colors hover:text-accent-soft',
+									isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
+								]}
+							>
+								{item.label}
+							</a>
+						))}
+						
+						
+					</div>
+
+					
+				</div>
+			) : (
+				<>
+					<div class="grid grid-cols-[auto_1fr_auto] items-center gap-4 py-4 lg:hidden">
+						<button
+							id="menu-toggle"
+							aria-label="Open menu"
+							aria-expanded="false"
+							aria-controls="mobile-menu"
+							class="flex flex-col gap-1.5 justify-self-start"
+						>
+							<span class="h-px w-6 bg-paper" />
+							<span class="h-px w-6 bg-paper" />
+						</button>
+						<a
+							href={home}
+							class="font-display justify-self-center text-lg tracking-wide text-paper transition-colors hover:text-accent-soft"
+						>
+							Yen-Hao Tu
+						</a>
+						<div class="flex items-center gap-2 justify-self-end text-xs tracking-wide">
+							{Object.keys(languages).map((code, i) => (
+								<>
+									{i > 0 && <span class="text-paper-dim/40">/</span>}
+									<a
+										href={switchLangPath(currentPath, code)}
+										class={
+											lang === code
+												? 'text-paper'
+												: 'text-paper-dim transition-colors hover:text-accent-soft'
+										}
+									>
+										{code === 'en' ? 'EN' : '中文'}
+									</a>
+								</>
+							))}
+						</div>
+					</div>
+
+					<div class="relative hidden items-center py-4 lg:flex">
+						<div class="flex flex-1 items-center gap-9">
+							<nav class="flex flex-1 items-center justify-end gap-9">
+								{leftNav.map((item) => (
+									<a
+										href={item.href}
+										class:list={[
+											'text-sm tracking-wide transition-colors hover:text-accent-soft',
+											isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
+										]}
+									>
+										{item.label}
+									</a>
+								))}
+							</nav>
+							<a
+								href={home}
+								class="font-display shrink-0 text-lg justify-self-center tracking-wide text-paper transition-colors hover:text-accent-soft"
+							>
+								Yen-Hao Tu
+							</a>
+							<nav class="flex flex-1 items-center justify-start gap-9">
+								{rightNav.map((item) => (
+									<a
+										href={item.href}
+										class:list={[
+											'text-sm tracking-wide transition-colors hover:text-accent-soft',
+											isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
+										]}
+									>
+										{item.label}
+									</a>
+								))}
+							</nav>
+						</div>
+						<div class="absolute inset-y-0 right-0 flex items-center gap-2 text-xs tracking-wide">
+							{Object.keys(languages).map((code, i) => (
+								<>
+									{i > 0 && <span class="text-paper-dim/40">/</span>}
+									<a
+										href={switchLangPath(currentPath, code)}
+										class={
+											lang === code
+												? 'text-paper'
+												: 'text-paper-dim transition-colors hover:text-accent-soft'
+										}
+									>
+										{code === 'en' ? 'EN' : '中文'}
+									</a>
+								</>
+							))}
+						</div>
+					</div>
+				</>
+			)
+		}
+	</div>
+
+	<nav id="mobile-menu" class="hidden flex-col gap-1 bg-ink px-6 pb-6 lg:hidden">
+		{
+			navItems.map((item) => (
+				<a
+					href={item.href}
+					class:list={[
+						'mobile-link py-3 text-base transition-colors hover:text-accent-soft',
+						isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
+					]}
+				>
+					{item.label}
+				</a>
+			))
+		}
+	</nav>
+</header>
+
+<script>
+	function bindMenu(toggleId: string, menuId: string, linkClass: string) {
+		const toggle = document.getElementById(toggleId);
+		const menu = document.getElementById(menuId);
+
+		toggle?.addEventListener('click', () => {
+			const isOpen = menu?.classList.toggle('flex');
+			menu?.classList.toggle('hidden');
+			toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+		});
+
+		document.querySelectorAll(`.${linkClass}`).forEach((link) => {
+			link.addEventListener('click', () => {
+				menu?.classList.add('hidden');
+				menu?.classList.remove('flex');
+				toggle?.setAttribute('aria-expanded', 'false');
+			});
+		});
+	}
+
+	bindMenu('menu-toggle', 'mobile-menu', 'mobile-link');
+	bindMenu('hero-menu-toggle', 'hero-mobile-menu', 'hero-mobile-link');
+
+	const heroBoundary = document.getElementById('hero-boundary');
+	const compactNav = document.getElementById('compact-nav');
+
+	if (heroBoundary && compactNav) {
+		const observer = new IntersectionObserver(([entry]) => {
+			const scrolledPast = entry.boundingClientRect.top < 0;
+			compactNav.classList.toggle('-translate-y-full', !scrolledPast);
+		});
+		observer.observe(heroBoundary);
+	}
+</script>

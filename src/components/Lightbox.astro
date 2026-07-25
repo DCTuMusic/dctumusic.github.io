@@ -1,0 +1,108 @@
+---
+---
+
+<div
+	id="lightbox-overlay"
+	class="fixed inset-0 z-100 hidden items-center justify-center bg-ink/95 p-6"
+	role="dialog"
+	aria-modal="true"
+	aria-label="Enlarged image"
+>
+	<button
+		id="lightbox-close"
+		type="button"
+		aria-label="Close"
+		class="absolute top-6 right-6 text-3xl text-paper-dim transition-colors hover:text-paper"
+	>
+		&times;
+	</button>
+
+	<button
+		id="lightbox-prev"
+		type="button"
+		aria-label="Previous photo"
+		class="absolute top-1/2 left-4 -translate-y-1/2 text-4xl text-paper-dim transition-colors hover:text-paper"
+	>
+		‹
+	</button>
+
+	<img id="lightbox-image" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain" />
+
+	<button
+		id="lightbox-next"
+		type="button"
+		aria-label="Next photo"
+		class="absolute top-1/2 right-4 -translate-y-1/2 text-4xl text-paper-dim transition-colors hover:text-paper"
+	>
+		›
+	</button>
+</div>
+
+<script>
+	function initLightbox() {
+		const overlay = document.getElementById('lightbox-overlay');
+		const img = document.getElementById('lightbox-image') as HTMLImageElement | null;
+		const closeBtn = document.getElementById('lightbox-close');
+		const prevBtn = document.getElementById('lightbox-prev');
+		const nextBtn = document.getElementById('lightbox-next');
+		if (!overlay || !img) return;
+
+		let group: HTMLElement[] = [];
+		let groupIndex = 0;
+
+		function render() {
+			if (!img) return;
+			const el = group[groupIndex];
+			img.src = el.dataset.lightboxSrc ?? '';
+			img.alt = el.dataset.lightboxAlt ?? '';
+			const hasNav = group.length > 1;
+			prevBtn?.classList.toggle('hidden', !hasNav);
+			nextBtn?.classList.toggle('hidden', !hasNav);
+		}
+
+		function open(trigger: HTMLElement) {
+			if (!overlay) return;
+			const groupId = trigger.dataset.lightboxGroup;
+			group = groupId
+				? Array.from(document.querySelectorAll<HTMLElement>(`[data-lightbox-group="${groupId}"]`))
+				: [trigger];
+			groupIndex = Math.max(group.indexOf(trigger), 0);
+			render();
+			overlay.classList.remove('hidden');
+			overlay.classList.add('flex');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function close() {
+			if (!overlay) return;
+			overlay.classList.add('hidden');
+			overlay.classList.remove('flex');
+			document.body.style.overflow = '';
+		}
+
+		function step(delta: number) {
+			if (group.length === 0) return;
+			groupIndex = (groupIndex + delta + group.length) % group.length;
+			render();
+		}
+
+		document.querySelectorAll<HTMLElement>('.lightbox-trigger').forEach((el) => {
+			el.addEventListener('click', () => open(el));
+		});
+
+		closeBtn?.addEventListener('click', close);
+		prevBtn?.addEventListener('click', () => step(-1));
+		nextBtn?.addEventListener('click', () => step(1));
+		overlay.addEventListener('click', (e) => {
+			if (e.target === overlay) close();
+		});
+		document.addEventListener('keydown', (e) => {
+			if (overlay.classList.contains('hidden')) return;
+			if (e.key === 'Escape') close();
+			if (e.key === 'ArrowLeft') step(-1);
+			if (e.key === 'ArrowRight') step(1);
+		});
+	}
+
+	initLightbox();
+</script>

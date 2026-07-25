@@ -1,0 +1,193 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro:assets';
+
+interface Props {
+	images: ImageMetadata[];
+	alt?: string;
+	// Full-resolution src to open in the lightbox on click, one per image.
+	lightboxSrcs: string[];
+	// Unique per gallery instance on a page, so the lightbox knows which
+	// photos belong together for prev/next navigation.
+	groupId: string;
+}
+
+const { images, alt = '', lightboxSrcs, groupId } = Astro.props;
+const loop = images.length > 1;
+// Three copies back-to-back create the illusion of infinite scroll — see
+// the script below for how the middle copy is kept in view.
+const reel = loop ? [...images, ...images, ...images] : images;
+---
+
+<div class="motion-gallery">
+	<div class="viewport" data-loop={loop ? 'true' : 'false'}>
+		<div class="strip flex h-56 w-max sm:h-64 md:h-72">
+			{
+				reel.map((image, i) => {
+					const realIndex = i % images.length;
+					return (
+						<button
+							type="button"
+							class="thumb lightbox-trigger h-full flex-none cursor-pointer"
+							data-lightbox-group={groupId}
+							data-lightbox-src={lightboxSrcs[realIndex]}
+							data-lightbox-alt={alt}
+						>
+							<Image
+								src={image}
+								alt=""
+								class="h-full w-auto object-cover"
+								draggable={false}
+							/>
+						</button>
+					);
+				})
+			}
+		</div>
+	</div>
+	{loop && <p class="hint">(Scroll horizontally)</p>}
+</div>
+
+<style>
+	.motion-gallery {
+		position: relative;
+	}
+
+	.viewport {
+		overflow-x: auto;
+		overflow-y: hidden;
+		scrollbar-width: none;
+		cursor: grab;
+	}
+
+	.viewport::-webkit-scrollbar {
+		display: none;
+	}
+
+	.viewport.dragging {
+		cursor: grabbing;
+	}
+
+	.strip {
+		gap: 4px;
+	}
+
+	.thumb {
+		border: none;
+		background: none;
+		padding: 0;
+	}
+
+	.hint {
+		margin-top: 0.5rem;
+		font-size: 0.75rem;
+		color: var(--color-paper-dim);
+	}
+</style>
+
+<script>
+	const DRAG_CLICK_THRESHOLD = 6; // px
+
+	document.querySelectorAll<HTMLElement>('.motion-gallery').forEach((gallery) => {
+		const viewport = gallery.querySelector<HTMLElement>('.viewport');
+		const strip = gallery.querySelector<HTMLElement>('.strip');
+		if (!viewport || !strip) return;
+
+		const loop = viewport.dataset.loop === 'true';
+		let oneSetWidth = 0;
+		let dragging = false;
+		let moved = false;
+		let startX = 0;
+		let startScrollLeft = 0;
+		let lastX = 0;
+		let lastTime = 0;
+		let velocity = 0;
+		let momentumFrame = 0;
+
+		function measure() {
+			oneSetWidth = strip!.scrollWidth / 3;
+			if (loop) viewport!.scrollLeft = oneSetWidth;
+		}
+
+		function wrap() {
+			if (!loop || oneSetWidth === 0) return;
+			if (viewport!.scrollLeft < oneSetWidth * 0.5) {
+				viewport!.scrollLeft += oneSetWidth;
+			} else if (viewport!.scrollLeft > oneSetWidth * 1.5) {
+				viewport!.scrollLeft -= oneSetWidth;
+			}
+		}
+
+		function onPointerDown(e: PointerEvent) {
+			// Deliberately no setPointerCapture here — capturing on the
+			// scrollable container breaks the browser's native click-event
+			// synthesis on the buttons inside it, which silently kills
+			// click-to-open-lightbox. Plain document-level listeners below
+			// give the same drag tracking without that side effect.
+			dragging = true;
+			moved = false;
+			startX = e.clientX;
+			lastX = e.clientX;
+			startScrollLeft = viewport!.scrollLeft;
+			lastTime = performance.now();
+			velocity = 0;
+			cancelAnimationFrame(momentumFrame);
+			viewport!.classList.add('dragging');
+			document.addEventListener('pointermove', onPointerMove);
+			document.addEventListener('pointerup', onPointerUp);
+			document.addEventListener('pointercancel', onPointerUp);
+		}
+
+		function onPointerMove(e: PointerEvent) {
+			if (!dragging) return;
+			const dx = e.clientX - startX;
+			if (Math.abs(dx) > DRAG_CLICK_THRESHOLD) moved = true;
+
+			const now = performance.now();
+			const dt = Math.max(now - lastTime, 1);
+			velocity = (e.clientX - lastX) / dt;
+			lastX = e.clientX;
+			lastTime = now;
+
+			viewport!.scrollLeft = startScrollLeft - dx;
+		}
+
+		function onPointerUp() {
+			if (!dragging) return;
+			dragging = false;
+			viewport!.classList.remove('dragging');
+			document.removeEventListener('pointermove', onPointerMove);
+			document.removeEventListener('pointerup', onPointerUp);
+			document.removeEventListener('pointercancel', onPointerUp);
+
+			let v = velocity;
+			function momentum() {
+				if (Math.abs(v) < 0.02) return;
+				viewport!.scrollLeft -= v * 16;
+				wrap();
+				v *= 0.94;
+				momentumFrame = requestAnimationFrame(momentum);
+			}
+			momentum();
+		}
+
+		viewport.addEventListener('pointerdown', onPointerDown);
+		viewport.addEventListener('scroll', wrap);
+
+		viewport.querySelectorAll('.thumb').forEach((thumb) => {
+			thumb.addEventListener(
+				'click',
+				(e) => {
+					if (moved) {
+						e.preventDefault();
+						e.stopPropagation();
+					}
+				},
+				true,
+			);
+		});
+
+		window.addEventListener('resize', measure);
+		requestAnimationFrame(measure);
+	});
+</script>

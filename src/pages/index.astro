@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Showreel from '../components/Showreel.astro';
+import Slogan from '../components/Slogan.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import AboutBlurb from '../components/AboutBlurb.astro';
+import { homepageCopy } from '../data/homepage';
+import type { ImageMetadata } from 'astro:assets';
+
+const lang = (Astro.currentLocale ?? 'en') as keyof typeof homepageCopy;
+const copy = homepageCopy[lang];
+
+// Drop one photo into src/assets/about/ (any filename) and it shows up here.
+const aboutPhotos = import.meta.glob<{ default: ImageMetadata }>(
+	'/src/assets/about/*.{jpeg,jpg,png,webp,JPEG,JPG,PNG,WEBP,Jpeg,Jpg,Png,Webp}',
+	{ eager: true },
+);
+const aboutPhoto = Object.values(aboutPhotos)[0]?.default;
+---
+
+<Layout hasHero>
+	<main>
+		<Showreel />
+		<div id="hero-boundary" aria-hidden="true"></div>
+		<Slogan text={copy.slogan1} label="Slogan 1 placeholder" />
+		<FeaturedWork />
+		<Slogan text={copy.slogan2} label="Slogan 2 placeholder" />
+		<AboutBlurb text={copy.bio} photo={aboutPhoto} />
+		<Slogan text={copy.slogan3} label="Slogan 3 placeholder" />
+	</main>
+</Layout>

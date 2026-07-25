@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import ArtHero from '../../components/ArtHero.astro';
+import type { ImageMetadata } from 'astro:assets';
+import { useTranslations } from '../../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
+const t = useTranslations(lang);
+const works = (await getCollection('art')).sort((a, b) => a.data.order - b.data.order);
+
+// Standalone mood photos for the full-bleed hero — independent from the
+// per-project photos below. Drop images into src/assets/art-hero/ with a
+// number prefix (01-, 02-, ...) to control the order they rotate in.
+const heroPhotos = import.meta.glob<{ default: ImageMetadata }>(
+	'/src/assets/art-hero/*.{jpeg,jpg,png,webp,svg,JPEG,JPG,PNG,WEBP,SVG,Jpeg,Jpg,Png,Webp,Svg}',
+	{ eager: true },
+);
+const heroImages = Object.keys(heroPhotos)
+	.sort()
+	.map((key) => heroPhotos[key].default);
+---
+
+<Layout title="Art — DC">
+	<main>
+		<ArtHero images={heroImages} />
+
+		<section class="mx-auto max-w-3xl px-6 py-20 md:px-10 md:py-28">
+			<p class="mb-4 text-xs tracking-[0.2em] text-accent-soft uppercase">{t('art.label')}</p>
+			<p class="text-lg leading-relaxed text-paper-dim md:text-xl">
+				{t('art.bio')}
+			</p>
+		</section>
+
+		<section class="mx-auto max-w-5xl px-6 pb-28 md:px-10">
+			{
+				works.map((entry, i) => {
+					const displayTitle = (lang === 'zh-Hant' && entry.data.titleZh) || entry.data.title;
+					return (
+						<a
+							href={getRelativeLocaleUrl(lang, `/art/${entry.id}`)}
+							class="group grid items-center gap-8 py-16 first:pt-0 md:grid-cols-2 md:gap-12"
+						>
+							<div class:list={['aspect-[4/3] overflow-hidden bg-ink-soft', i % 2 === 1 && 'md:order-2']}>
+								<Image
+									src={entry.data.cover}
+									alt={displayTitle}
+									class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+								/>
+							</div>
+							<div>
+								<h2 class="font-display text-2xl text-paper transition-colors group-hover:text-accent-soft">
+									{displayTitle}
+								</h2>
+								<p class="mt-1 text-sm text-paper-dim">{entry.data.year}</p>
+							</div>
+						</a>
+					);
+				})
+			}
+		</section>
+	</main>
+</Layout>
