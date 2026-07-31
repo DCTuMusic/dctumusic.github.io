@@ -146,9 +146,28 @@ To add, remove, or reorder them: go to `src/assets/art-hero/` and drop image fil
 
 ## Homepage slogans and bio
 
-All of this lives in one place: `src/data/homepage.ts`. It has an `en` block and a `zh-Hant` block, each with `slogan1`, `slogan2`, `slogan3`, and `bio`. Fill in whichever strings you're ready to write — leave the rest as `''` and that section shows a placeholder box instead of breaking.
+All of this lives in one place: `src/data/homepage.ts`. It has an `en` block and a `zh-Hant` block, each with `heroTagline` (`heading` + `subtext`), `slogan1`, `slogan2`, `slogan3`, and `bio`. Fill in whichever strings you're ready to write — leave the rest as `''` and that section shows a placeholder box instead of breaking (the `heroTagline` is the exception: leaving `heading` blank just hides the text overlay on the hero video entirely, rather than showing a placeholder box on top of the video).
 
 You don't need to touch `src/pages/index.astro` or `src/pages/zh-hant/index.astro` at all for this — both pages read from this same file and automatically pick the right language block.
+
+## Homepage services section
+
+Also in `src/data/homepage.ts`, right under `bio`, there's a `services` block — this is the numbered list (currently 01/02/03) shown right after the About section on the homepage:
+
+```
+services: {
+  label: 'Services',              // small heading above the list
+  items: [
+    { number: '01', title: '...', body: '...' },
+    { number: '02', title: '...', body: '...' },
+    { number: '03', title: '...', body: '...' },
+  ],
+  howIWorkLabel: 'How I work',    // short label before the "｜"
+  howIWork: '...',                // the sentence after it
+},
+```
+
+Add, remove, or reorder entries in `items` freely — the list just renders whatever's there. Both the `en` and `zh-Hant` blocks have their own `services`, so update both if you want the change on both languages.
 
 ## Showreel video
 
