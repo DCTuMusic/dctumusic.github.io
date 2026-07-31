@@ -7,7 +7,7 @@ interface Props {
 const { heading = '', subtext = '' } = Astro.props;
 ---
 
-<section class="hero-video relative h-screen w-full overflow-hidden bg-ink-soft">
+<section class="hero-video relative h-dvh w-full overflow-hidden bg-ink-soft">
 	<video class="h-full w-full object-cover" autoplay muted loop playsinline>
 		<source src={`${import.meta.env.BASE_URL}videos/hero-reel.mp4`} type="video/mp4" />
 	</video>
@@ -81,6 +81,14 @@ const { heading = '', subtext = '' } = Astro.props;
 			const scrolledPast = Math.min(Math.max(-rect.top, 0), rect.height);
 			const fractionPast = rect.height > 0 ? scrolledPast / rect.height : 0;
 			video.volume = calcVolume(fractionPast);
+
+			// Mobile browsers can force-pause a background video to free up
+			// hardware decoding for another video playing elsewhere on the
+			// page (e.g. the Showreel embed). Resume it once it's back in
+			// view instead of leaving it frozen on whatever frame it stopped.
+			if (fractionPast < 1 && video.paused) {
+				video.play().catch(() => {});
+			}
 			ticking = false;
 		}
 		function onScroll() {
