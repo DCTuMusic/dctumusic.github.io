@@ -6,7 +6,7 @@ clientZh: "台灣設計研究院、新一代設計展"
 year: 2021
 role: "Sound Designer"
 roleZh: "聲音設計"
-mediaType: ["Animation", "Commerical"]
+mediaType: ["Animation", "Commercial"]
 musicGenre: [ "Electronic"]
 featured: true
 cover: "./cover.jpg"

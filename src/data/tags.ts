@@ -10,7 +10,7 @@ export const tagLabelsZh: Record<string, string> = {
 	Film: '電影',
 	Dance: '舞蹈',
 	Documentary: '紀錄片',
-	Commerical: '廣告',
+	Commercial: '廣告',
 	Installation: '藝術裝置',
 	Game: '遊戲',
 	Orchestral: '管弦',

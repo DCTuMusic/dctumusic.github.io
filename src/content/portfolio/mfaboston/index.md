@@ -6,7 +6,7 @@ clientZh: "波士頓美術館、Base Design (NY)"
 year: 2022
 role: "Sound Designer"
 roleZh: "聲音設計"
-mediaType: ["Animation", "Commerical"]
+mediaType: ["Animation", "Commercial"]
 musicGenre: [ "Acoustic"]
 featured: true
 cover: "./cover.jpeg"

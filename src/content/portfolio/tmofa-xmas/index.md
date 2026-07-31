@@ -6,7 +6,7 @@ clientZh: "桃園美術館、O.OO"
 year: 2021
 role: "Sound Designer"
 roleZh: "聲音設計"
-mediaType: ["Animation", "Commerical"]
+mediaType: ["Animation", "Commercial"]
 musicGenre: [ "Electronic"]
 featured: true
 cover: "./cover.png"

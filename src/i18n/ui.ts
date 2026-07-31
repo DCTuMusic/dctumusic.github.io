@@ -10,7 +10,7 @@ export const defaultLang = 'en';
 // Until then every page falls back to the English copy.
 export const ui = {
 	en: {
-		'nav.home': 'Home',
+		'nav.home': 'Service',
 		'nav.portfolio': 'Portfolio',
 		'nav.process': 'Design Process',
 		'nav.art': 'Art',
@@ -32,7 +32,7 @@ export const ui = {
 		'art.bio': 'Alongside commissioned scoring work, DC makes personal and experimental sound art — studies in texture, space, and listening that sit outside client work and follow their own logic.',
 	},
 	'zh-Hant': {
-		'nav.home': '首頁',
+		'nav.home': '服務',
 		'nav.portfolio': '作品集',
 		'nav.process': '設計流程',
 		'nav.art': '藝術創作',

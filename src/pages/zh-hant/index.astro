@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import HeroVideo from '../../components/HeroVideo.astro';
 import Showreel from '../../components/Showreel.astro';
 import Slogan from '../../components/Slogan.astro';
 import FeaturedWork from '../../components/FeaturedWork.astro';
@@ -20,8 +21,9 @@ const aboutPhoto = Object.values(aboutPhotos)[0]?.default;
 
 <Layout hasHero>
 	<main>
-		<Showreel />
+		<HeroVideo />
 		<div id="hero-boundary" aria-hidden="true"></div>
+		<Showreel />
 		<Slogan text={copy.slogan1} label="Slogan 1 placeholder" />
 		<FeaturedWork />
 		<Slogan text={copy.slogan2} label="Slogan 2 placeholder" />

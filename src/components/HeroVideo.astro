@@ -1,0 +1,43 @@
+---
+---
+
+<section class="hero-video relative h-screen w-full overflow-hidden bg-ink-soft">
+	<video class="h-full w-full object-cover" autoplay muted loop playsinline>
+		<source src={`${import.meta.env.BASE_URL}videos/hero-reel.mp4`} type="video/mp4" />
+	</video>
+
+	<button
+		type="button"
+		class="mute-toggle absolute right-6 bottom-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-ink/50 text-paper backdrop-blur-sm transition-colors hover:text-accent-soft md:right-10 md:bottom-10"
+		aria-label="Unmute video"
+		aria-pressed="false"
+	>
+		<svg class="icon-muted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M4 9v6h4l5 5V4L8 9H4Z" />
+			<path d="m17 9 4 6M21 9l-4 6" />
+		</svg>
+		<svg class="icon-unmuted hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M4 9v6h4l5 5V4L8 9H4Z" />
+			<path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a9 9 0 0 1 0 12" />
+		</svg>
+	</button>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.hero-video').forEach((hero) => {
+		const video = hero.querySelector('video');
+		const toggle = hero.querySelector<HTMLButtonElement>('.mute-toggle');
+		const mutedIcon = hero.querySelector('.icon-muted');
+		const unmutedIcon = hero.querySelector('.icon-unmuted');
+		if (!video || !toggle) return;
+
+		toggle.addEventListener('click', () => {
+			video.muted = !video.muted;
+			const isMuted = video.muted;
+			toggle.setAttribute('aria-label', isMuted ? 'Unmute video' : 'Mute video');
+			toggle.setAttribute('aria-pressed', String(!isMuted));
+			mutedIcon?.classList.toggle('hidden', !isMuted);
+			unmutedIcon?.classList.toggle('hidden', isMuted);
+		});
+	});
+</script>

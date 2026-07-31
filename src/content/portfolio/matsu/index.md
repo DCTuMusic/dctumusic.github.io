@@ -6,7 +6,7 @@ clientZh: "馬祖國際藝術島"
 year: 2022
 role: "Composer"
 roleZh: "配樂"
-mediaType: ["Animation","Commerical"]
+mediaType: ["Animation","Commercial"]
 musicGenre: [ "Electronic","Orchestral"]
 featured: false
 cover: "./cover.png"

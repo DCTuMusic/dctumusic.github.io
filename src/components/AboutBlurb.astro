@@ -13,7 +13,7 @@ const { text = '', photo } = Astro.props;
 <section id="about" class="mx-auto max-w-5xl scroll-mt-24 px-6 py-20 md:px-10 md:py-0">
 	<p class="mb-8 text-xs tracking-[0.2em] text-accent-soft uppercase">About</p>
 	<div class="grid gap-10 md:grid-cols-[minmax(0,300px)_1fr] md:items-center md:gap-16">
-		<div class="aspect-[3/4] overflow-hidden rounded-lg bg-ink-soft">
+		<div class="aspect-[4/3] overflow-hidden rounded-lg bg-ink-soft md:aspect-[3/4]">
 			{
 				photo ? (
 					<Image src={photo} alt="DC" class="h-full w-full object-cover" />

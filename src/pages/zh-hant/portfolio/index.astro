@@ -84,7 +84,7 @@ const musicGenres = [...new Set(allWork.flatMap((entry) => entry.data.musicGenre
 						return (
 							<a
 								href={getRelativeLocaleUrl(lang, `/portfolio/${entry.id}`)}
-								class="work-card group mb-4.5 block break-inside-avoid overflow-hidden rounded-lg border border-line"
+								class="work-card group mb-4.5 block break-inside-avoid overflow-hidden rounded-lg"
 								data-media={entry.data.mediaType.join(',')}
 								data-genre={entry.data.musicGenre.join(',')}
 							>

@@ -16,15 +16,13 @@ const home = getRelativeLocaleUrl(lang, '/');
 
 const navItems = [
 	{ href: getRelativeLocaleUrl(lang, '/'), label: t('nav.home') },
-	{ href: `${home}#about`, label: t('nav.about') },
 	{ href: getRelativeLocaleUrl(lang, '/portfolio'), label: t('nav.portfolio') },
-	{ href: getRelativeLocaleUrl(lang, '/design-process'), label: t('nav.process') },
 	{ href: getRelativeLocaleUrl(lang, '/art'), label: t('nav.art') },
 	{ href: getRelativeLocaleUrl(lang, '/contact'), label: t('nav.contact') },
 ];
 
-const leftNav = navItems.slice(0, 3);
-const rightNav = navItems.slice(3);
+const leftNav = navItems.slice(0, 2);
+const rightNav = navItems.slice(2);
 
 const base = import.meta.env.BASE_URL;
 
