@@ -5,6 +5,7 @@ import Showreel from '../../components/Showreel.astro';
 import Slogan from '../../components/Slogan.astro';
 import FeaturedWork from '../../components/FeaturedWork.astro';
 import AboutBlurb from '../../components/AboutBlurb.astro';
+import ClientLogos from '../../components/ClientLogos.astro';
 import Services from '../../components/Services.astro';
 import ProcessSteps from '../../components/ProcessSteps.astro';
 import { homepageCopy } from '../../data/homepage';
@@ -30,6 +31,7 @@ const aboutPhoto = Object.values(aboutPhotos)[0]?.default;
 		<FeaturedWork />
 		<Slogan text={copy.slogan2} />
 		<AboutBlurb text={copy.bio} photo={aboutPhoto} />
+		<ClientLogos />
 		<Services
 			label={copy.services.label}
 			items={copy.services.items}

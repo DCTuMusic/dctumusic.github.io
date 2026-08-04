@@ -37,3 +37,11 @@ export function getEmbedStyle(embed: string): string {
 
 	return 'aspect-ratio: 16 / 9; width: min(100%, calc(80vh * 1.778));';
 }
+
+// Same sizing rule as getEmbedStyle, for a plain cover photo standing in for
+// a video: capped at 80vh tall, full width up to that, true aspect ratio
+// kept either way — so a cover-photo fallback matches a Vimeo/YouTube embed's
+// footprint instead of running as tall as the source photo happens to be.
+export function getImageBoxStyle(width: number, height: number): string {
+	return `aspect-ratio: ${width} / ${height}; width: min(100%, calc(80vh * ${width / height}));`;
+}

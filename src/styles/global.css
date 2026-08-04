@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-	--font-sans: "Inter", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
-	--font-display: "Space Grotesk", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+	--font-sans: "Roboto", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+	--font-display: "Roboto", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
 
 	--color-ink: #0a0a0a;
 	--color-ink-soft: #141414;
@@ -21,6 +21,7 @@ body {
 	background-color: var(--color-ink);
 	color: var(--color-paper);
 	font-family: var(--font-sans);
+	font-weight: 300;
 }
 
 ::selection {

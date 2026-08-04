@@ -202,6 +202,19 @@ process: {
 
 Same rules as `services` — add, remove, or reorder `items` freely, and update both the `en` and `zh-Hant` blocks to keep both languages in sync.
 
+## Homepage client logos
+
+Shown right after the About section (before Services). Two places to edit:
+
+1. Drop the logo image into `src/assets/Client/` (jpg/png/webp/svg all work).
+2. Open `src/data/clients.ts` and add a line: `{ file: 'YourFile.png', name: 'Client Name' }` — order in that list controls display order, and `name` is used as the image's alt text.
+
+Remove a client by deleting its line from `clients.ts` (the image file can stay in the folder unused, or you can delete it too).
+
+The heading text ("Clients" / "合作過的單位") is a shared UI string in `src/i18n/ui.ts` under `clients.heading`, same place as other short section labels.
+
+**A note on logo colors**: the site background is dark, so logos need to work on dark. Logos that are already white/light artwork, or that come as a flat square tile with a dark background baked in, will blend right in. A logo that's solid black/dark artwork on a transparent background will be very hard to see — for those, get a light/white version of the logo, or ask to have one added with a light background chip behind it.
+
 ## Showreel video
 
 Open `src/data/site.ts` and paste your embed snippet into `showreelEmbed` (see "Embedding video or audio" above). Both the English and Chinese homepage pick it up automatically.

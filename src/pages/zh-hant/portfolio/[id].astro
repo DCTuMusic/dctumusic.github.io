@@ -2,7 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
-import { getEmbedStyle } from '../../../lib/embed';
+import { getEmbedStyle, getImageBoxStyle } from '../../../lib/embed';
 import { translateTag } from '../../../data/tags';
 import { useTranslations } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
@@ -85,8 +85,11 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 						))}
 					</div>
 				) : (
-					<div class="mt-10 overflow-hidden rounded-lg border border-line bg-ink-soft">
-						<Image src={cover} alt={displayTitle} class="w-full" />
+					<div
+						class="mx-auto mt-10 overflow-hidden rounded-lg bg-ink-soft"
+						style={getImageBoxStyle(cover.width, cover.height)}
+					>
+						<Image src={cover} alt={displayTitle} class="h-full w-full object-cover" />
 					</div>
 				)
 			}

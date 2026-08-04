@@ -33,6 +33,7 @@ export const ui = {
 		'gallery.scrollHint': '(Scroll horizontally)',
 		'art.photoCredit': 'Photo',
 		'featured.heading': 'Featured Work',
+		'clients.heading': 'Overseas Brands I\'ve Collaborated With',
 	},
 	'zh-Hant': {
 		'nav.home': '服務',
@@ -58,5 +59,6 @@ export const ui = {
 		'gallery.scrollHint': '（左右滑動瀏覽）',
 		'art.photoCredit': '攝影',
 		'featured.heading': '精選作品',
+		'clients.heading': '過往合作過的國際品牌',
 	},
 } as const;

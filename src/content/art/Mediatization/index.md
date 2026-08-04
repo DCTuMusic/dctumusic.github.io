@@ -1,5 +1,6 @@
 ---
 title: "Mediatization"
+titleZh: "媒介化社會"
 year: 2025
 cover: "./mediatization_2.JPG"
 images: ["mediatization_1.JPG","mediatization_3.JPG","mediatization_4.JPG"]
