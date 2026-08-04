@@ -3,8 +3,10 @@ import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { translateTag } from '../data/tags';
+import { useTranslations } from '../i18n/utils';
 
-const lang = Astro.currentLocale ?? 'en';
+const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
+const t = useTranslations(lang);
 
 const allWork = await getCollection('portfolio');
 const featured = allWork
@@ -13,8 +15,44 @@ const featured = allWork
 	.slice(0, 3);
 ---
 
-<section class="mx-auto max-w-6xl px-6 py-8 md:px-10">
-	<div class="grid grid-cols-3 gap-2 sm:gap-4 md:gap-8">
+<section class="mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-20">
+	<h2 class="font-display mb-8 text-2xl text-paper md:text-3xl">{t('featured.heading')}</h2>
+	<div class="lg:hidden">
+		{
+			featured.map((entry, i) => {
+				const displayTitle = (lang === 'zh-Hant' && entry.data.titleZh) || entry.data.title;
+				return (
+					<a
+						href={getRelativeLocaleUrl(lang, `/portfolio/${entry.id}`)}
+						class="group grid grid-cols-2 items-center gap-4 py-6 first:pt-0 md:gap-12 md:py-8"
+					>
+						<div
+							class:list={[
+								'aspect-video overflow-hidden rounded-lg border border-line bg-ink-soft',
+								i % 2 === 1 && 'md:order-2',
+							]}
+						>
+							<Image
+								src={entry.data.cover}
+								alt={displayTitle}
+								class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<h3 class="font-display text-base text-paper transition-colors group-hover:text-accent-soft md:text-2xl">
+								{displayTitle}
+							</h3>
+							<p class="mt-1 text-xs tracking-wide text-paper-dim uppercase md:mt-2 md:text-sm">
+								{entry.data.mediaType.map((tag) => translateTag(tag, lang)).join(' / ')}
+							</p>
+						</div>
+					</a>
+				);
+			})
+		}
+	</div>
+
+	<div class="hidden lg:grid lg:grid-cols-3 lg:gap-8">
 		{
 			featured.map((entry) => {
 				const displayTitle = (lang === 'zh-Hant' && entry.data.titleZh) || entry.data.title;
@@ -30,9 +68,9 @@ const featured = allWork
 								class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 							/>
 						</div>
-						<div class="p-2 sm:p-4 md:p-5">
-							<h3 class="font-display text-xs text-paper sm:text-sm md:text-base">{displayTitle}</h3>
-							<p class="mt-1 hidden text-xs tracking-wide text-paper-dim uppercase sm:block">
+						<div class="p-5">
+							<h3 class="font-display text-base text-paper">{displayTitle}</h3>
+							<p class="mt-1 text-xs tracking-wide text-paper-dim uppercase">
 								{entry.data.mediaType.map((tag) => translateTag(tag, lang)).join(' / ')}
 							</p>
 						</div>

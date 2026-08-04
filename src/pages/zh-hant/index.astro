@@ -6,6 +6,7 @@ import Slogan from '../../components/Slogan.astro';
 import FeaturedWork from '../../components/FeaturedWork.astro';
 import AboutBlurb from '../../components/AboutBlurb.astro';
 import Services from '../../components/Services.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
 import { homepageCopy } from '../../data/homepage';
 import type { ImageMetadata } from 'astro:assets';
 
@@ -25,9 +26,9 @@ const aboutPhoto = Object.values(aboutPhotos)[0]?.default;
 		<HeroVideo heading={copy.heroTagline.heading} subtext={copy.heroTagline.subtext} />
 		<div id="hero-boundary" aria-hidden="true"></div>
 		<Showreel />
-		<Slogan text={copy.slogan1} label="Slogan 1 placeholder" />
+		<Slogan text={copy.slogan1} />
 		<FeaturedWork />
-		<Slogan text={copy.slogan2} label="Slogan 2 placeholder" />
+		<Slogan text={copy.slogan2} />
 		<AboutBlurb text={copy.bio} photo={aboutPhoto} />
 		<Services
 			label={copy.services.label}
@@ -35,6 +36,7 @@ const aboutPhoto = Object.values(aboutPhotos)[0]?.default;
 			howIWorkLabel={copy.services.howIWorkLabel}
 			howIWork={copy.services.howIWork}
 		/>
-		<Slogan text={copy.slogan3} label="Slogan 3 placeholder" />
+		<ProcessSteps heading={copy.process.heading} items={copy.process.items} />
+		<Slogan text={copy.slogan3} />
 	</main>
 </Layout>

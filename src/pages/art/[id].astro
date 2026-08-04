@@ -20,11 +20,24 @@ const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
 const t = useTranslations(lang);
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, titleZh, year, cover, embeds, embedsGrid, images, summary, summaryZh, credits } =
-	entry.data;
+const {
+	title,
+	titleZh,
+	year,
+	cover,
+	embeds,
+	embedsGrid,
+	images,
+	photoCredit,
+	photoCreditZh,
+	summary,
+	summaryZh,
+	credits,
+} = entry.data;
 
 const displayTitle = (lang === 'zh-Hant' && titleZh) || title;
 const displaySummary = (lang === 'zh-Hant' && summaryZh) || summary;
+const displayPhotoCredit = (lang === 'zh-Hant' && photoCreditZh) || photoCredit;
 
 const galleryFull = await Promise.all(images.map((image) => getImage({ src: image, width: 1800 })));
 ---
@@ -66,6 +79,7 @@ const galleryFull = await Promise.all(images.map((image) => getImage({ src: imag
 							alt={displayTitle}
 							lightboxSrcs={galleryFull.map((img) => img.src)}
 							groupId={entry.id}
+							credit={displayPhotoCredit}
 						/>
 					</div>
 				)

@@ -92,11 +92,24 @@ They'll stack in the order listed, each in its own frame. If a portfolio project
 
 ## Add an art piece
 
-Same idea, in `src/content/art/`. Fields: `title`, `titleZh` (optional), `year`, `cover`, `embeds` (optional — works exactly like portfolio's `embeds`, see above), `images` (optional array — this is the piece's own gallery, separate from the site-wide hero photos below), `summary` (optional short write-up, shown on the piece's own page), `summaryZh` (optional), `order`. These show up in the alternating list on the Art page (the "full-bleed rotating photo" at the very top is a separate thing — see below).
+Same idea, in `src/content/art/`. Fields: `title`, `titleZh` (optional), `year`, `cover`, `embeds` (optional — works exactly like portfolio's `embeds`, see above), `images` (optional array — this is the piece's own gallery, separate from the site-wide hero photos below), `photoCredit` / `photoCreditZh` (optional — see below), `summary` (optional short write-up, shown on the piece's own page), `summaryZh` (optional), `order`. These show up in the alternating list on the Art page (the "full-bleed rotating photo" at the very top is a separate thing — see below).
 
 Leave `summary` blank and the piece's page shows a placeholder box instead — same behavior as the homepage slogans.
 
 Each piece also gets its own page at `/art/your-folder-name`, same as portfolio projects.
+
+### Photo credit under a piece's gallery
+
+If a piece's `images` gallery has its own photographer, add `photoCredit` (and `photoCreditZh` for the Chinese version) to that piece's `index.md`:
+
+```
+photoCredit: "Photography by Jane Doe"
+photoCreditZh: "攝影：Jane Doe"
+```
+
+It shows as a small caption right under the photo gallery, prefixed with "Photo" / "攝影" automatically. Leave both fields out (or blank) and nothing shows — no placeholder, since this one's genuinely optional rather than something you're expected to fill in.
+
+The "(Scroll horizontally)" hint under any gallery with enough photos to scroll is bilingual too — it's `gallery.scrollHint` in `src/i18n/ui.ts` if you ever want to reword it.
 
 ## Project page layout (Portfolio and Art)
 
@@ -148,6 +161,8 @@ To add, remove, or reorder them: go to `src/assets/art-hero/` and drop image fil
 
 All of this lives in one place: `src/data/homepage.ts`. It has an `en` block and a `zh-Hant` block, each with `heroTagline` (`heading` + `subtext`), `slogan1`, `slogan2`, `slogan3`, and `bio`. Fill in whichever strings you're ready to write — leave the rest as `''` and that section shows a placeholder box instead of breaking (the `heroTagline` is the exception: leaving `heading` blank just hides the text overlay on the hero video entirely, rather than showing a placeholder box on top of the video).
 
+`bio` is a list of strings, one per paragraph, e.g. `bio: ['First paragraph.', 'Second paragraph.']` — each entry renders as its own paragraph in the About section. A single paragraph still works fine as a one-item list.
+
 You don't need to touch `src/pages/index.astro` or `src/pages/zh-hant/index.astro` at all for this — both pages read from this same file and automatically pick the right language block.
 
 ## Homepage services section
@@ -168,6 +183,24 @@ services: {
 ```
 
 Add, remove, or reorder entries in `items` freely — the list just renders whatever's there. Both the `en` and `zh-Hant` blocks have their own `services`, so update both if you want the change on both languages.
+
+## Homepage process section
+
+Right after `services` in the same file, `process` is the numbered list (currently /01–/04) shown right after the Services section on the homepage:
+
+```
+process: {
+  heading: 'How the work is made',
+  items: [
+    { number: '/01', title: '...', body: '...' },
+    { number: '/02', title: '...', body: '...' },
+    { number: '/03', title: '...', body: '...' },
+    { number: '/04', title: '...', body: '...' },
+  ],
+},
+```
+
+Same rules as `services` — add, remove, or reorder `items` freely, and update both the `en` and `zh-Hant` blocks to keep both languages in sync.
 
 ## Showreel video
 

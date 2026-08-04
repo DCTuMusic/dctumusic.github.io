@@ -62,6 +62,10 @@ const art = defineCollection({
 			// false (default) = stack each one full-width, one per row.
 			embedsGrid: z.boolean().default(false),
 			images: z.array(image()).default([]),
+			// Optional photo credit shown as a small caption under the piece's
+			// own photo gallery. Leave both blank and nothing renders.
+			photoCredit: z.string().optional(),
+			photoCreditZh: z.string().optional(),
 			summary: z.string().optional(),
 			summaryZh: z.string().optional(),
 			// Free-form role/name pairs, e.g. { role: "Director", name: "..." }.

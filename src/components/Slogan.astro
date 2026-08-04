@@ -1,21 +1,15 @@
 ---
 interface Props {
 	text?: string;
-	label?: string;
 }
 
-const { text = '', label = 'Slogan placeholder' } = Astro.props;
+const { text = '' } = Astro.props;
 ---
 
-<section class="mx-auto max-w-4xl px-6 py-20 text-center md:px-10 md:py-28">
-	{
-		text ? (
+{
+	text && (
+		<section class="mx-auto max-w-4xl px-6 py-20 text-center md:px-10 md:py-24">
 			<p class="font-display text-2xl leading-snug text-paper sm:text-3xl md:text-4xl">{text}</p>
-		) : (
-			<br>
-			// <p class="font-display border border-dashed border-line px-6 py-8 text-lg text-paper-dim">
-			// 	{label} — add copy in this section's props
-			// </p>
-		)
-	}
-</section>
+		</section>
+	)
+}

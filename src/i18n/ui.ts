@@ -29,7 +29,10 @@ export const ui = {
 		'process.heading': 'Design Process',
 		'process.body': 'This page is a placeholder — a walkthrough of the working process will go here.',
 		'art.label': 'Artist',
-		'art.bio': 'Alongside commissioned scoring work, DC makes personal and experimental sound art — studies in texture, space, and listening that sit outside client work and follow their own logic.',
+		'art.bio': 'Alongside commissioned scoring work, Yen-Hao Tu makes personal and experimental sound art — studies in texture, space, and listening that sit outside client work and follow their own logic.',
+		'gallery.scrollHint': '(Scroll horizontally)',
+		'art.photoCredit': 'Photo',
+		'featured.heading': 'Featured Work',
 	},
 	'zh-Hant': {
 		'nav.home': '服務',
@@ -51,6 +54,9 @@ export const ui = {
 		'process.heading': '設計流程',
 		'process.body': '此頁面尚在建置中，之後會放上完整的工作流程說明。',
 		'art.label': '藝術家',
-		'art.bio': '除了商業配樂委託之外，DC 也持續進行個人與實驗性的聲音創作——這些關於質地、空間與聆聽的探索，獨立於商業案之外，依循自己的邏輯發展。',
+		'art.bio': '除了商業配樂委託之外，杜彥豪也持續進行個人與實驗性的聲音創作——這些關於質地、空間與聆聽的探索，獨立於商業案之外，依循自己的邏輯發展。',
+		'gallery.scrollHint': '（左右滑動瀏覽）',
+		'art.photoCredit': '攝影',
+		'featured.heading': '精選作品',
 	},
 } as const;

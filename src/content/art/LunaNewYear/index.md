@@ -4,6 +4,8 @@ titleZh: "所謂新年"
 year: 2024
 cover: "./cover.JPG"
 images: ["01.JPG","02.JPG","03.JPG","04.JPG","06.JPG","08.JPG" ]
+photoCredit: "fromwayfilm"
+photoCreditZh: "鄭仰峰"
 embeds: 
     - '<iframe title="vimeo-player" src="https://player.vimeo.com/video/939262299?h=1cc3f95eca" width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"   allowfullscreen></iframe>'
     
@@ -23,6 +25,6 @@ summary: |
     Editing: Yang-Feng Cheng   
     Music: DC Tu  
     Special Thanks to Ya-Pin Chang, Yu-Chu Tsai, Xin-Pei Chen
-order: 2
+order: 30
 ---
 

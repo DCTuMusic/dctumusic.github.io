@@ -1,26 +1,47 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { site } from '../../data/site';
+import { contactCopy } from '../../data/contact';
 import { useTranslations } from '../../i18n/utils';
 
 const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
 const t = useTranslations(lang);
 const email = site.email;
+const copy = contactCopy[lang];
 ---
 
 <Layout title="Contact — DC">
-	<main class="flex min-h-[70vh] items-center pt-28">
+	<main class="flex min-h-[70vh] items-center pt-28 pb-20">
 		<div class="mx-auto max-w-2xl px-6 text-center md:px-10">
 			<p class="mb-4 text-xs tracking-[0.2em] text-accent-soft uppercase">{t('contact.label')}</p>
 			<h1 class="font-display text-3xl text-paper sm:text-4xl">
 				{t('contact.heading1')}<br />{t('contact.heading2')}
 			</h1>
-			<p class="mx-auto mt-6 max-w-md text-paper-dim">
-				{t('contact.subtext')}
-			</p>
+
+			<div class="mt-14 grid grid-cols-1 gap-6 text-left sm:grid-cols-3 sm:gap-8">
+				{
+					copy.nextSteps.items.map((item, i) => (
+						<>
+							{i > 0 && (
+								<div
+									class="-my-1 flex justify-center text-sm leading-none text-accent-soft sm:hidden"
+									aria-hidden="true"
+								>
+									↓
+								</div>
+							)}
+							<div>
+								<h3 class="font-display text-lg text-paper">{item.title}</h3>
+								<p class="mt-2 text-sm leading-relaxed text-paper-dim">{item.body}</p>
+							</div>
+						</>
+					))
+				}
+			</div>
+
 			<a
 				href={`mailto:${email}`}
-				class="mt-10 inline-block rounded-full bg-accent px-8 py-4 text-sm font-medium text-paper transition-transform hover:scale-105"
+				class="mt-14 inline-block rounded-full bg-accent px-8 py-4 text-sm font-medium text-paper transition-transform hover:scale-105"
 			>
 				{email}
 			</a>

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro:assets';
+import { useTranslations } from '../i18n/utils';
 
 interface Props {
 	images: ImageMetadata[];
@@ -10,9 +11,14 @@ interface Props {
 	// Unique per gallery instance on a page, so the lightbox knows which
 	// photos belong together for prev/next navigation.
 	groupId: string;
+	// Optional pre-formatted credit line, e.g. "Photo: Jane Doe" — rendered
+	// on the opposite side of the scroll hint so the two sit symmetrically.
+	credit?: string;
 }
 
-const { images, alt = '', lightboxSrcs, groupId } = Astro.props;
+const { images, alt = '', lightboxSrcs, groupId, credit } = Astro.props;
+const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
+const t = useTranslations(lang);
 const loop = images.length > 1;
 // Three copies back-to-back create the illusion of infinite scroll — see
 // the script below for how the middle copy is kept in view.
@@ -45,7 +51,20 @@ const reel = loop ? [...images, ...images, ...images] : images;
 			}
 		</div>
 	</div>
-	{loop && <p class="hint">(Scroll horizontally)</p>}
+	{
+		(loop || credit) && (
+			<div class="caption-row">
+				{loop && <p class="hint">{t('gallery.scrollHint')}</p>}
+				{credit && (
+					<p class="credit">
+						{t('art.photoCredit')}
+						{lang === 'zh-Hant' ? '：' : ': '}
+						{credit}
+					</p>
+				)}
+			</div>
+		)
+	}
 </div>
 
 <style>
@@ -78,8 +97,19 @@ const reel = loop ? [...images, ...images, ...images] : images;
 		padding: 0;
 	}
 
-	.hint {
+	.caption-row {
 		margin-top: 0.5rem;
+		display: flex;
+		align-items: baseline;
+	}
+
+	.hint {
+		font-size: 0.75rem;
+		color: var(--color-paper-dim);
+	}
+
+	.credit {
+		margin-left: auto;
 		font-size: 0.75rem;
 		color: var(--color-paper-dim);
 	}
