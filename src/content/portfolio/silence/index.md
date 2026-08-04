@@ -1,6 +1,6 @@
 ---
 title: "Silence"
-client: "Body E.D.T. Dance Company"
+client: "Body EDT Dance Company"
 year: 2022
 role: "Interactive Sound Designer, Sound Designer"
 roleZh: "互動聲音設計、聲音設計"
@@ -15,6 +15,10 @@ embedsGrid: true
 gallery: []
 summary: ""
 credits:
+  - role: "Client"
+    roleZh: "客戶"
+    name: "Client: Body EDT Dance Company"
+    nameZh: "體相舞蹈劇場"
   - role: "Interactive Sound Design"
     roleZh: "互動聲音設計"
     name: "DC Tu"
