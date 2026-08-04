@@ -47,7 +47,7 @@ const displaySummary = (lang === 'zh-Hant' && summaryZh) || summary;
 const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: image, width: 1800 })));
 ---
 
-<Layout title={`${displayTitle} — DC`} description={displaySummary}>
+<Layout title={`${displayTitle} — Yen-Hao Tu`} description={displaySummary}>
 	<main class="pt-28 pb-24 md:pb-32">
 		<div class="mx-auto max-w-[90rem] px-6 md:px-10">
 			<a href={getRelativeLocaleUrl(lang, '/portfolio')} class="text-sm text-paper-dim hover:text-accent-soft">
