@@ -10,7 +10,7 @@ export const defaultLang = 'en';
 // Until then every page falls back to the English copy.
 export const ui = {
 	en: {
-		'nav.home': 'Service',
+		'nav.home': 'Home',
 		'nav.portfolio': 'Portfolio',
 		'nav.process': 'Design Process',
 		'nav.art': 'Art',
@@ -33,10 +33,10 @@ export const ui = {
 		'gallery.scrollHint': '(Scroll horizontally)',
 		'art.photoCredit': 'Photo',
 		'featured.heading': 'Featured Work',
-		'clients.heading': 'Overseas Brands I\'ve Collaborated With',
+		'clients.heading': 'International Brands I\'ve Collaborated With',
 	},
 	'zh-Hant': {
-		'nav.home': '服務',
+		'nav.home': '首頁',
 		'nav.portfolio': '作品集',
 		'nav.process': '設計流程',
 		'nav.art': '藝術創作',

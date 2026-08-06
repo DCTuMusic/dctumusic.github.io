@@ -8,17 +8,17 @@ export const contactCopy = {
 				{
 					number: '01',
 					title: 'Step 1',
-					body: "Let's set up a call and talk about your project over a coffee.",
+					body: "Let's set up a call and talk about your project.",
 				},
 				{
 					number: '02',
 					title: 'Step 2',
-					body: "I'll come back with a quote and a plan based on what we talked about.",
+					body: "I'll provide a quote and a solution.",
 				},
 				{
 					number: '03',
 					title: 'Step 3',
-					body: 'Once that works for you, we start.',
+					body: 'We agree on the plan and start working together.',
 				},
 			],
 		},
@@ -35,12 +35,12 @@ export const contactCopy = {
 				{
 					number: '02',
 					title: 'Step 2',
-					body: '根據談的內容，我提供報價與方案',
+					body: '提供報價與方案並討論細節',
 				},
 				{
 					number: '03',
 					title: 'Step 3',
-					body: '確認之後，開始合作',
+					body: '達成共識、展開合作',
 				},
 			],
 		},
