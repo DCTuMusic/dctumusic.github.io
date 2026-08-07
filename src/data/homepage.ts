@@ -68,7 +68,7 @@ export const homepageCopy = {
 	'zh-Hant': {
 		heroTagline: {
 			heading: '以聲音造境',
-			subtext: '為影像、空間與表演藝術創作能讓人沉浸的配樂與聲音設計，。',
+			subtext: '為影像、空間與表演藝術創作能讓人沉浸的配樂與聲音設計。',
 		},
 		slogan1: '我用聲音的材質與空間來刻畫場景',
 		slogan2: '',

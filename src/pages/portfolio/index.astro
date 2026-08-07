@@ -97,7 +97,7 @@ const musicGenres = [...new Set(allWork.flatMap((entry) => entry.data.musicGenre
 									<h2 class="font-display text-base text-paper transition-colors  transition-transform duration-500 group-hover:text-accent group-hover:scale-105">
 										{displayTitle}
 									</h2>
-									<p class="mt-1 text-xs tracking-wide text-paper-dim uppercase  transition-transform duration-500 group-hover:scale-105">
+									<p class="mt-1 text-xs tracking-wide text-paper-dim  transition-transform duration-500 group-hover:scale-105">
 										{entry.data.mediaType.map((tag) => translateTag(tag, lang)).join(' / ')}
 									</p>
 								</div>
