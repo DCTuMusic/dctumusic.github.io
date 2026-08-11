@@ -18,13 +18,28 @@ summary: |
     When experiencing this artwork firsthand, one immersed in the installation will feel the collective consciousness constructed by the different voices. Approaching the speakers allows one to hear clear individual content. This design concept is derived from human society. While individuals may grasp multiple opinions, it is difficult to capture a comprehensive understanding of the entire society when each individual is different and constantly changing. The intention of the New Year is also similar in this regard. The artist is not attempting to propose new values but rather hoping to facilitate discussions among people. Through dialogue, they aim to promote collective thoughts in society, making the New Year more relevant to contemporary life. 
 
 
-    Artist: DC Tu  
-    Visual design for the installation: Hsin-i Sung  
-    Videographer: Yang-Feng Cheng
 
-    Editing: Yang-Feng Cheng   
-    Music: DC Tu  
-    Special Thanks to Ya-Pin Chang, Yu-Chu Tsai, Xin-Pei Chen
+credits:
+  - role: "Artist"
+    roleZh: "藝術家"
+    name: "Yen-Hao Tu"
+    nameZh: "杜彥豪"
+  - role: "Visual design for the installation"
+    roleZh: "裝置視覺設計"
+    name: "Hsin-I Sung"
+    nameZh: "宋欣怡"
+  - role: "Videographer and Editor"
+    roleZh: "攝影與剪輯"
+    name: "Yang-Feng Cheng"
+    nameZh: "鄭仰峰"
+  - role: "Music"
+    roleZh: "音樂設計"
+    name: "Yen-Hao Tu"
+    nameZh: "杜彥豪"
+  - role: "Special Thanks"
+    roleZh: "特別感謝"
+    name: "Ya-Pin Chang, Yu-Chu Tsai, Xin-Pei Chen"
+    nameZh: "張雅萍、蔡昱奇、陳星霈"    
 order: 30
 ---
 

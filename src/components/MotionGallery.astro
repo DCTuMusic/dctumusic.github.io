@@ -50,6 +50,18 @@ const reel = loop ? [...images, ...images, ...images] : images;
 				})
 			}
 		</div>
+		{
+			loop && (
+				<>
+					<button type="button" class="nav prev" aria-label="Previous photo">
+						‹
+					</button>
+					<button type="button" class="nav next" aria-label="Next photo">
+						›
+					</button>
+				</>
+			)
+		}
 	</div>
 	{
 		(loop || credit) && (
@@ -97,6 +109,46 @@ const reel = loop ? [...images, ...images, ...images] : images;
 		padding: 0;
 	}
 
+	.nav {
+		position: absolute;
+		top: 50%;
+		translate: 0 -50%;
+		display: flex;
+		height: 2.5rem;
+		width: 2.5rem;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		border: 1px solid var(--color-line);
+		background: color-mix(in srgb, var(--color-ink) 70%, transparent);
+		color: var(--color-paper);
+		font-size: 1.25rem;
+		line-height: 1;
+		opacity: 0;
+		/* Deliberately always interactive, not toggled with visibility.
+		   If this only became clickable once `.nav-visible` was added, a
+		   mouse already resting on that spot when it appears wouldn't get
+		   a real mouseenter — browsers don't retroactively fire hover
+		   events just because pointer-events flipped under a motionless
+		   cursor. Keeping it always-on means real hover tracking works
+		   regardless of when the fade-in happens. The footprint is a
+		   small fixed circle at the very edge, so this is a fine trade. */
+		transition: opacity 0.3s ease;
+		z-index: 2;
+	}
+
+	.motion-gallery.nav-visible .nav {
+		opacity: 1;
+	}
+
+	.nav.prev {
+		left: 0.75rem;
+	}
+
+	.nav.next {
+		right: 0.75rem;
+	}
+
 	.caption-row {
 		margin-top: 0.5rem;
 		display: flex;
@@ -118,12 +170,17 @@ const reel = loop ? [...images, ...images, ...images] : images;
 <script>
 	const DRAG_CLICK_THRESHOLD = 6; // px
 
+	const NAV_IDLE_MS = 1500;
+
 	document.querySelectorAll<HTMLElement>('.motion-gallery').forEach((gallery) => {
 		const viewport = gallery.querySelector<HTMLElement>('.viewport');
 		const strip = gallery.querySelector<HTMLElement>('.strip');
+		const prevBtn = gallery.querySelector<HTMLElement>('.nav.prev');
+		const nextBtn = gallery.querySelector<HTMLElement>('.nav.next');
 		if (!viewport || !strip) return;
 
 		const loop = viewport.dataset.loop === 'true';
+
 		let oneSetWidth = 0;
 		let dragging = false;
 		let moved = false;
@@ -146,6 +203,84 @@ const reel = loop ? [...images, ...images, ...images] : images;
 			} else if (viewport!.scrollLeft > oneSetWidth * 1.5) {
 				viewport!.scrollLeft -= oneSetWidth;
 			}
+		}
+
+		let navAnimFrame = 0;
+
+		// Hand-rolled instead of viewport.scrollBy({behavior:'smooth'}) —
+		// the native smooth-scroll animation and wrap()'s mid-flight
+		// scrollLeft jump fight each other (the animation doesn't know its
+		// target just moved), which is what caused the gallery to lock up
+		// after a few arrow clicks. Driving scrollLeft ourselves lets us
+		// shift the animation's own base position by the same amount
+		// whenever wrap() fires, so the two stay in sync.
+		function animateScrollBy(delta: number) {
+			cancelAnimationFrame(navAnimFrame);
+			let base = viewport!.scrollLeft;
+			const duration = 400;
+			const startTime = performance.now();
+
+			function step(now: number) {
+				const t = Math.min((now - startTime) / duration, 1);
+				const eased = 1 - Math.pow(1 - t, 3);
+				viewport!.scrollLeft = base + delta * eased;
+
+				const before = viewport!.scrollLeft;
+				wrap();
+				const correction = viewport!.scrollLeft - before;
+				if (correction !== 0) base += correction;
+
+				if (t < 1) navAnimFrame = requestAnimationFrame(step);
+			}
+
+			navAnimFrame = requestAnimationFrame(step);
+		}
+
+		if (prevBtn && nextBtn) {
+			let hideTimer = 0;
+
+			// Ask the browser directly instead of maintaining our own
+			// enter/leave-tracked boolean — :hover is always the current,
+			// authoritative answer, so there's no risk of our bookkeeping
+			// drifting out of sync with an actually-missed event.
+			const isHoveringNav = () => prevBtn.matches(':hover') || nextBtn.matches(':hover');
+
+			const tryHide = () => {
+				if (isHoveringNav()) {
+					hideTimer = window.setTimeout(tryHide, NAV_IDLE_MS);
+					return;
+				}
+				gallery.classList.remove('nav-visible');
+			};
+
+			const showNav = () => {
+				gallery.classList.add('nav-visible');
+				window.clearTimeout(hideTimer);
+				hideTimer = window.setTimeout(tryHide, NAV_IDLE_MS);
+			};
+			const hideNav = () => {
+				gallery.classList.remove('nav-visible');
+				window.clearTimeout(hideTimer);
+			};
+			gallery.addEventListener('mouseenter', showNav);
+			gallery.addEventListener('mousemove', showNav);
+			gallery.addEventListener('mouseleave', hideNav);
+
+			// Leaving an arrow (but staying within the gallery) restarts the
+			// idle countdown rather than waiting for the next mousemove
+			// elsewhere in the gallery.
+			[prevBtn, nextBtn].forEach((btn) => {
+				btn.addEventListener('mouseleave', showNav);
+			});
+
+			prevBtn.addEventListener('click', () => {
+				showNav();
+				animateScrollBy(-viewport!.clientWidth * 0.8);
+			});
+			nextBtn.addEventListener('click', () => {
+				showNav();
+				animateScrollBy(viewport!.clientWidth * 0.8);
+			});
 		}
 
 		function onPointerDown(e: PointerEvent) {
