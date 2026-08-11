@@ -2,8 +2,8 @@
 title: "Mediatization"
 titleZh: "媒介化社會"
 year: 2025
-cover: "./mediatization_2.JPG"
-images: ["mediatization_1.JPG","mediatization_3.JPG","mediatization_4.JPG"]
+cover: "./mediatization_2.jpg"
+images: ["mediatization_1.jpg","mediatization_3.jpg","mediatization_4.jpg","mediatization_2.jpg","mediatization_5.jpg"]
 embeds: []
 summary: |
   In this era of the rapid rise of AI, these tools are gradually entering every corner of our lives. Beyond being just tools, AI has also become something we increasingly rely on. In the future, the way we explore the world may no longer come from direct, tangible encounters, but through AI; the standards by which we judge things may no longer be cultivated from our own experiences, but shaped by AI. Fewer and fewer people will be able to think independently and explore reality, while technology will become the constructor of knowledge and standards, dominating the world and even being regarded as truth itself.
