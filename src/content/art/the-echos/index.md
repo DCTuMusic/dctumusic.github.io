@@ -20,5 +20,5 @@ credits:
     roleZh: "藝術家"
     name: "Yen-Hao Tu"
     nameZh: "杜彥豪"
-order: 18
+order: 25
 ---
