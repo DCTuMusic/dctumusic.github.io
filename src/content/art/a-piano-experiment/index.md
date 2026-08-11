@@ -12,8 +12,8 @@ summary: |
     The piece is based on sounds I recorded from the piano. I aimed to create a cohesive timbral relationship where all the sounds are connected to the piano itself. If needed, the piece can be divided into two sections. The first part represents an abstract interpretation of piano sounds, while the second part features more conventional piano sounds, creating a spectrum from abstract to concrete.
 
 credits:
-  - role: "Artist"
-    roleZh: "藝術家"
+  - role: "Composer"
+    roleZh: "作曲家"
     name: "Yen-Hao Tu"
     nameZh: "杜彥豪"
 ---
