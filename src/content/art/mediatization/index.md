@@ -2,7 +2,7 @@
 title: "Mediatization"
 titleZh: "媒介化社會"
 year: 2025
-cover: "./mediatization_2.jpg"
+cover: "mediatization_2.jpg"
 images: ["mediatization_1.jpg","mediatization_3.jpg","mediatization_4.jpg","mediatization_2.jpg","mediatization_5.jpg"]
 embeds: []
 summary: |
