@@ -29,7 +29,7 @@ export const ui = {
 		'process.heading': 'Design Process',
 		'process.body': 'This page is a placeholder — a walkthrough of the working process will go here.',
 		'art.label': 'Artist',
-		'art.bio': 'Alongside commissioned scoring work, Yen-Hao Tu makes personal and experimental sound art — studies in texture, space, and listening that sit outside client work and follow their own logic.',
+		'art.bio': 'Alongside commissioned scoring work, Yen-Hao Tu makes personal and experimental sound art — studies in texture, space, and listening that sit outside client work and follow their own logic. By leveraging Ambisonics and multi-channel spatial sound, he manipulates how acoustic energy moves through space, constructing immersive soundscapes that transport listeners into uncharted auditory environments.',
 		'gallery.scrollHint': '(Scroll horizontally)',
 		'art.photoCredit': 'Photo',
 		'featured.heading': 'Featured Work',
