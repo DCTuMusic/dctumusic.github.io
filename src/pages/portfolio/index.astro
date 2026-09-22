@@ -144,21 +144,23 @@ const musicGenres = [...new Set(allWork.flatMap((entry) => entry.data.musicGenre
 		});
 	});
 
+	function selectPill(pill: HTMLButtonElement) {
+		const axis = pill.dataset.axis!;
+		const value = pill.dataset.value!;
+
+		if (active[axis].has(value)) {
+			active[axis].delete(value);
+			pill.classList.remove('bg-paper', 'text-ink', 'border-paper');
+		} else {
+			active[axis].add(value);
+			pill.classList.add('bg-paper', 'text-ink', 'border-paper');
+		}
+
+		applyFilters();
+	}
+
 	pills.forEach((pill) => {
-		pill.addEventListener('click', () => {
-			const axis = pill.dataset.axis!;
-			const value = pill.dataset.value!;
-
-			if (active[axis].has(value)) {
-				active[axis].delete(value);
-				pill.classList.remove('bg-paper', 'text-ink', 'border-paper');
-			} else {
-				active[axis].add(value);
-				pill.classList.add('bg-paper', 'text-ink', 'border-paper');
-			}
-
-			applyFilters();
-		});
+		pill.addEventListener('click', () => selectPill(pill));
 	});
 
 	function applyFilters() {
@@ -188,5 +190,25 @@ const musicGenres = [...new Set(allWork.flatMap((entry) => entry.data.musicGenre
 		active.musicGenre.clear();
 		pills.forEach((pill) => pill.classList.remove('bg-paper', 'text-ink', 'border-paper'));
 		applyFilters();
+	});
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const initialFilters: Array<{ axis: string; value: string }> = [];
+	const mediaParam = urlParams.get('media');
+	const genreParam = urlParams.get('genre');
+	if (mediaParam) initialFilters.push({ axis: 'mediaType', value: mediaParam });
+	if (genreParam) initialFilters.push({ axis: 'musicGenre', value: genreParam });
+
+	initialFilters.forEach(({ axis, value }) => {
+		const pill = Array.from(pills).find((p) => p.dataset.axis === axis && p.dataset.value === value);
+		if (!pill) return;
+
+		selectPill(pill);
+
+		const panel = document.getElementById(`panel-${axis}`);
+		const toggle = document.querySelector<HTMLButtonElement>(`[data-filter-toggle="${axis}"]`);
+		panel?.classList.remove('hidden');
+		panel?.classList.add('flex');
+		toggle?.classList.add('text-accent-soft');
 	});
 </script>

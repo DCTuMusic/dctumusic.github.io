@@ -1,6 +1,6 @@
 ---
 title: "Whisper"
-client: "Hsiang-Yu Chan"
+client: "Evan Chan"
 clientZh: "詹翔宇"
 year: 2026
 role: "Composer"
@@ -17,7 +17,7 @@ summaryZh: ""
 credits:
   - role: "Choreographer"
     roleZh: "編舞"
-    name: "Hsiang-Yu Chan"
+    name: "Evan Chan"
     nameZh: "詹翔宇"
   - role: "Composer"
     roleZh: "作曲"

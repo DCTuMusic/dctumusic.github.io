@@ -19,9 +19,11 @@ credits:
   - role: "Director"
     roleZh: "導演"
     name: "Yu-Kai Chen"
+    nameZh: "陳昱愷"
   - role: "Sound Mixing"
-    roleZh: "混音"
+    roleZh: "後期混音"
     name: "Chia-Jung Ho"
+    nameZh: "何佳蓉"
   - role: "Score & Sound Design"
     roleZh: "配樂與聲音設計"
     name: "DC Tu"
@@ -29,5 +31,6 @@ credits:
   - role: "Score Mixing"
     roleZh: "配樂混音"
     name: "Kevin Fu"
+    nameZh: "符家寶"
 order: 3
 ---

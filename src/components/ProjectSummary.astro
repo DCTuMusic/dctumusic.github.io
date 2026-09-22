@@ -1,0 +1,25 @@
+---
+import { parseSummary } from '../lib/summary';
+
+interface Props {
+	summary: string;
+}
+
+const { summary } = Astro.props;
+const blocks = parseSummary(summary);
+---
+
+{
+	blocks.length > 0 && (
+		<div class="mt-10 space-y-8">
+			{blocks.map((block) => (
+				<div>
+					{block.heading && (
+						<h2 class="font-display mb-3 text-xl text-paper sm:text-2xl">{block.heading}</h2>
+					)}
+					<p class="text-lg leading-relaxed whitespace-pre-line text-paper-soft">{block.body}</p>
+				</div>
+			))}
+		</div>
+	)
+}

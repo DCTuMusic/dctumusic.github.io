@@ -7,6 +7,7 @@ import { translateTag } from '../../../data/tags';
 import { useTranslations } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Lightbox from '../../../components/Lightbox.astro';
+import ProjectSummary from '../../../components/ProjectSummary.astro';
 
 export async function getStaticPaths() {
 	const allWork = await getCollection('portfolio');
@@ -64,10 +65,23 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 
 			<div class="mt-3 flex flex-wrap gap-2">
 				{
-					[...mediaType, ...musicGenre].map((tag) => (
-						<span class="rounded-full border border-line px-3 py-1 text-xs text-paper-dim">
+					mediaType.map((tag) => (
+						<a
+							href={`${getRelativeLocaleUrl(lang, '/portfolio')}?media=${encodeURIComponent(tag)}`}
+							class="rounded-full border border-line px-3 py-1 text-xs text-paper-dim transition-colors hover:border-accent-soft hover:text-paper"
+						>
 							{translateTag(tag, lang)}
-						</span>
+						</a>
+					))
+				}
+				{
+					musicGenre.map((tag) => (
+						<a
+							href={`${getRelativeLocaleUrl(lang, '/portfolio')}?genre=${encodeURIComponent(tag)}`}
+							class="rounded-full border border-line px-3 py-1 text-xs text-paper-dim transition-colors hover:border-accent-soft hover:text-paper"
+						>
+							{translateTag(tag, lang)}
+						</a>
 					))
 				}
 			</div>
@@ -96,7 +110,7 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 
 			{
 				displaySummary ? (
-					<p class="mt-10 text-lg leading-relaxed whitespace-pre-line text-paper-dim">{displaySummary}</p>
+					<ProjectSummary summary={displaySummary} />
 				) : (
 					<p class="mt-10 text-lg leading-relaxed whitespace-pre-line text-paper px-1 py-0.5"></p>
 					// <p class="mt-10 border border-dashed border-line px-6 py-8 text-lg text-paper-dim">
