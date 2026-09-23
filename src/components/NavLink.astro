@@ -1,0 +1,23 @@
+---
+interface Props {
+	href: string;
+	label: string;
+	active: boolean;
+	extraClass?: string;
+}
+
+const { href, label, active, extraClass = '' } = Astro.props;
+const hash = href.includes('#') ? href.split('#')[1] : undefined;
+---
+
+<a
+	href={href}
+	data-nav-hash={hash}
+	class:list={[
+		extraClass,
+		'transition-colors hover:text-accent-soft',
+		active ? 'text-accent-soft' : 'text-paper-dim/90',
+	]}
+>
+	{label}
+</a>

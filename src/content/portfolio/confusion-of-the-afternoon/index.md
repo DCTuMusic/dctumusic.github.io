@@ -8,7 +8,7 @@ year: 2022
 role: "Composer, Sound Designer"
 roleZh: "配樂、聲音設計"
 mediaType: ["Animation", "Film"]
-musicGenre: ["Orchestral"]
+musicGenre: ["Acoustic","Orchestral"]
 featured: true
 cover: "./cover.jpg"
 embeds:

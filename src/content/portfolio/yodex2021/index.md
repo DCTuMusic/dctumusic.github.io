@@ -7,7 +7,7 @@ year: 2021
 role: "Sound Designer"
 roleZh: "聲音設計"
 mediaType: ["Animation", "Commercial"]
-musicGenre: [ "Electronic"]
+musicGenre: [ "SoundDesign"]
 featured: true
 cover: "./cover.jpg"
 embeds:
@@ -15,8 +15,18 @@ embeds:
   
   - '<iframe src="https://player.vimeo.com/video/525776105?h=735a8a882f" width="640" height="1137" frameborder="0" allowfullscreen="" " class="" data-scale="26"></iframe>'
 gallery: []
-summary: ""
-summaryZh: ""
+summary: |
+  Structure & Sonic Background
+  The YODEX identity had to respond to the keywords each participating school submitted, with symbols and words like "Deadline" and "talk" appearing one after another on screen. I started by building a sonic background that could carry all of it, giving the film a continuous pulse so the rapid cuts never felt fragmented.
+
+  Mechanical Articulation
+  On top of that background, mechanical sounds articulate each word and symbol in turn, so every keyword lands with its own sonic event. With PUI PUI Molcar at peak popularity that year, we also produced a Molcar edition built on the same structure.
+summaryZh: |
+  結構設計與聲音背景
+  新一代設計展的動態識別需要對應各校提供的關鍵字，畫面上「Deadline」「talk」這類符號與文字一個接著一個出現。我先建立一層能夠承載這些內容的聲音背景，讓整支片有連貫的呼吸與節奏，不會因為畫面快速切換而顯得零碎。
+
+  機械化聲響與文字對位
+  在背景音之上，我用機械化的聲響逐一對應每一段文字與符號，每個關鍵字出現的瞬間都有屬於它自己的聲音事件。當時正逢天竺鼠車車的熱潮，我們也以同一套架構另外做了一支天竺鼠版本。
 credits:
   - role: "Client"
     roleZh: "客戶"

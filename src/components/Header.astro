@@ -2,6 +2,7 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { useTranslations } from '../i18n/utils';
 import { languages } from '../i18n/ui';
+import NavLink from './NavLink.astro';
 
 interface Props {
 	hasHero?: boolean;
@@ -15,7 +16,7 @@ const t = useTranslations(lang);
 const home = getRelativeLocaleUrl(lang, '/');
 
 const navItems = [
-	{ href: getRelativeLocaleUrl(lang, '/'), label: t('nav.home') },
+	{ href: `${home}#services`, label: t('nav.service') },
 	{ href: getRelativeLocaleUrl(lang, '/portfolio'), label: t('nav.portfolio') },
 	{ href: getRelativeLocaleUrl(lang, '/art'), label: t('nav.art') },
 	{ href: getRelativeLocaleUrl(lang, '/contact'), label: t('nav.contact') },
@@ -42,7 +43,8 @@ const currentPath = Astro.url.pathname;
 const normalizedCurrentPath = currentPath.replace(/\/$/, '') || '/';
 
 function isActive(href: string) {
-	const path = href.split('#')[0].replace(/\/$/, '') || '/';
+	if (href.includes('#')) return false;
+	const path = href.replace(/\/$/, '') || '/';
 	return path === normalizedCurrentPath;
 }
 ---
@@ -91,15 +93,12 @@ function isActive(href: string) {
 					<div class="flex flex-1 items-center gap-9">
 						<nav class="flex flex-1 items-center justify-end gap-9">
 							{leftNav.map((item) => (
-								<a
+								<NavLink
 									href={item.href}
-									class:list={[
-										'text-sm tracking-wide transition-colors hover:text-accent-soft',
-										isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
-									]}
-								>
-									{item.label}
-								</a>
+									label={item.label}
+									active={isActive(item.href)}
+									extraClass="text-sm tracking-wide"
+								/>
 							))}
 						</nav>
 						<a
@@ -110,15 +109,12 @@ function isActive(href: string) {
 						</a>
 						<nav class="flex flex-1 items-center justify-start gap-9">
 							{rightNav.map((item) => (
-								<a
+								<NavLink
 									href={item.href}
-									class:list={[
-										'text-sm tracking-wide transition-colors hover:text-accent-soft',
-										isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
-									]}
-								>
-									{item.label}
-								</a>
+									label={item.label}
+									active={isActive(item.href)}
+									extraClass="text-sm tracking-wide"
+								/>
 							))}
 						</nav>
 					</div>
@@ -144,15 +140,12 @@ function isActive(href: string) {
 
 			<nav id="hero-mobile-menu" class="hidden flex-col gap-1 bg-ink px-6 pb-6 lg:hidden">
 				{navItems.map((item) => (
-					<a
+					<NavLink
 						href={item.href}
-						class:list={[
-							'hero-mobile-link py-3 text-base transition-colors hover:text-accent-soft',
-							isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
-						]}
-					>
-						{item.label}
-					</a>
+						label={item.label}
+						active={isActive(item.href)}
+						extraClass="hero-mobile-link py-3 text-base"
+					/>
 				))}
 			</nav>
 		</header>
@@ -184,18 +177,13 @@ function isActive(href: string) {
 
 					<div class="hidden items-center justify-center gap-7 lg:flex">
 						{navItems.map((item) => (
-							<a
+							<NavLink
 								href={item.href}
-								class:list={[
-									'text-sm tracking-wide transition-colors hover:text-accent-soft',
-									isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
-								]}
-							>
-								{item.label}
-							</a>
+								label={item.label}
+								active={isActive(item.href)}
+								extraClass="text-sm tracking-wide"
+							/>
 						))}
-						
-						
 					</div>
 
 					
@@ -242,15 +230,12 @@ function isActive(href: string) {
 						<div class="flex flex-1 items-center gap-9">
 							<nav class="flex flex-1 items-center justify-end gap-9">
 								{leftNav.map((item) => (
-									<a
+									<NavLink
 										href={item.href}
-										class:list={[
-											'text-sm tracking-wide transition-colors hover:text-accent-soft',
-											isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
-										]}
-									>
-										{item.label}
-									</a>
+										label={item.label}
+										active={isActive(item.href)}
+										extraClass="text-sm tracking-wide"
+									/>
 								))}
 							</nav>
 							<a
@@ -261,15 +246,12 @@ function isActive(href: string) {
 							</a>
 							<nav class="flex flex-1 items-center justify-start gap-9">
 								{rightNav.map((item) => (
-									<a
+									<NavLink
 										href={item.href}
-										class:list={[
-											'text-sm tracking-wide transition-colors hover:text-accent-soft',
-											isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
-										]}
-									>
-										{item.label}
-									</a>
+										label={item.label}
+										active={isActive(item.href)}
+										extraClass="text-sm tracking-wide"
+									/>
 								))}
 							</nav>
 						</div>
@@ -299,15 +281,12 @@ function isActive(href: string) {
 	<nav id="mobile-menu" class="hidden flex-col gap-1 bg-ink px-6 pb-6 lg:hidden">
 		{
 			navItems.map((item) => (
-				<a
+				<NavLink
 					href={item.href}
-					class:list={[
-						'mobile-link py-3 text-base transition-colors hover:text-accent-soft',
-						isActive(item.href) ? 'text-accent-soft' : 'text-paper-dim/90',
-					]}
-				>
-					{item.label}
-				</a>
+					label={item.label}
+					active={isActive(item.href)}
+					extraClass="mobile-link py-3 text-base"
+				/>
 			))
 		}
 	</nav>
@@ -346,4 +325,30 @@ function isActive(href: string) {
 		});
 		observer.observe(heroBoundary);
 	}
+
+	const hashLinksByTarget = new Map<string, HTMLAnchorElement[]>();
+	document.querySelectorAll<HTMLAnchorElement>('a[data-nav-hash]').forEach((link) => {
+		const hash = link.dataset.navHash;
+		if (!hash) return;
+		const links = hashLinksByTarget.get(hash) ?? [];
+		links.push(link);
+		hashLinksByTarget.set(hash, links);
+	});
+
+	hashLinksByTarget.forEach((links, hash) => {
+		const section = document.getElementById(hash);
+		if (!section) return;
+
+		const setActive = (active: boolean) => {
+			links.forEach((link) => {
+				link.classList.toggle('text-accent-soft', active);
+				link.classList.toggle('text-paper-dim/90', !active);
+			});
+		};
+
+		const sectionObserver = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting), {
+			rootMargin: '-100px 0px -70% 0px',
+		});
+		sectionObserver.observe(section);
+	});
 </script>

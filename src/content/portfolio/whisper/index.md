@@ -6,7 +6,7 @@ year: 2026
 role: "Composer"
 roleZh: "作曲"
 mediaType: ["Dance"]
-musicGenre: ["Experimental", "Ambient", "Orchestral"]
+musicGenre: ["Ambient", "Experimental", "Orchestral"]
 featured: false
 cover: "./cover.JPG"
 embeds:

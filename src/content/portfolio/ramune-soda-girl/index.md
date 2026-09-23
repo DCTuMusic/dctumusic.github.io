@@ -7,7 +7,7 @@ year: 2025
 role: "Composer"
 roleZh: "配樂"
 mediaType: ["Film"]
-musicGenre: [ "Electronic","Orchestral"]
+musicGenre: [ "Acoustic","Electronic","Orchestral"]
 featured: false
 cover: "./cover.jpg"
 embeds:

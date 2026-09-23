@@ -5,7 +5,7 @@ year: 2022
 role: "Interactive Sound Designer, Sound Designer"
 roleZh: "互動聲音設計、聲音設計"
 mediaType: ["Dance"]
-musicGenre: ["SoundDesign"]
+musicGenre: ["Electronic","Experimental"]
 featured: false
 cover: "./cover.jpg"
 embeds:

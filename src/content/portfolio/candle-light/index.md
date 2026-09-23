@@ -6,7 +6,7 @@ year: 2021
 role: "Sound Mixing, Composer"
 roleZh: "混音、作曲"
 mediaType: ["Film"]
-musicGenre: ["SoundDesign"]
+musicGenre: ["Ambient","Acoustic","Electronic"]
 featured: false
 cover: "./cover.jpg"
 embeds:

@@ -6,7 +6,7 @@ year: 2020
 role: "Composer, Sound Designer"
 roleZh: "配樂、聲音設計"
 mediaType: ["Film"]
-musicGenre: ["SoundDesign"]
+musicGenre: ["Electronic","Experimental","SoundDesign","Ambient"]
 featured: false
 cover: "./cover.jpg"
 embeds:

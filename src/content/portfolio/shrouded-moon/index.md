@@ -7,7 +7,7 @@ year: 2025
 role: "Composer"
 roleZh: "配樂"
 mediaType: ["Dance", ]
-musicGenre: [ "Electronic","Experimental","Orchestral"]
+musicGenre: [ "Electronic","Experimental","Orchestral","Ambient"]
 featured: false
 cover: "./cover.jpg"
 embeds:
