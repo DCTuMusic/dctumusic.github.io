@@ -16,6 +16,10 @@
 
 html {
 	scroll-behavior: smooth;
+	/* `clip` rather than `hidden`: full-bleed elements overshoot by the
+	   scrollbar's width, and `hidden` would turn this into a scroll container
+	   and break sticky positioning. */
+	overflow-x: clip;
 }
 
 body {

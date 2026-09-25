@@ -8,6 +8,7 @@ import { useTranslations } from '../../../i18n/utils';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import Lightbox from '../../../components/Lightbox.astro';
 import ProjectSummary from '../../../components/ProjectSummary.astro';
+import Video360 from '../../../components/Video360.astro';
 
 export async function getStaticPaths() {
 	const allWork = await getCollection('portfolio');
@@ -34,7 +35,11 @@ const {
 	cover,
 	embeds,
 	embedsGrid,
+	video360,
+	leadImage,
 	gallery,
+	photoCredit,
+	photoCreditZh,
 	summary,
 	summaryZh,
 	credits,
@@ -44,6 +49,7 @@ const displayTitle = (lang === 'zh-Hant' && titleZh) || title;
 const displayClient = (lang === 'zh-Hant' && clientZh) || client;
 const displayRole = (lang === 'zh-Hant' && roleZh) || role;
 const displaySummary = (lang === 'zh-Hant' && summaryZh) || summary;
+const displayPhotoCredit = (lang === 'zh-Hant' && photoCreditZh) || photoCredit;
 
 const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: image, width: 1800 })));
 ---
@@ -87,6 +93,14 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 			</div>
 
 			{
+				leadImage && (
+					<div class="mt-10 overflow-hidden rounded-lg border border-line">
+						<Image src={leadImage} alt={displayTitle} class="w-full" />
+					</div>
+				)
+			}
+
+			{
 				embeds.length > 0 ? (
 					<div class:list={['mt-10', embedsGrid ? 'grid gap-6 sm:grid-cols-2' : 'space-y-6']}>
 						{embeds.map((embed) => (
@@ -94,7 +108,11 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 								class="embed-frame relative mx-auto max-w-full overflow-hidden rounded-lg border border-line bg-ink-soft"
 								style={getEmbedStyle(embed)}
 							>
-								<Fragment set:html={embed} />
+								{video360 && /youtube/i.test(embed) ? (
+									<Video360 embed={embed} />
+								) : (
+									<Fragment set:html={embed} />
+								)}
 							</div>
 						))}
 					</div>
@@ -121,11 +139,12 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 
 			{
 				gallery.length > 0 && (
-					<div class="mt-8 grid gap-4 sm:grid-cols-2">
+					<div class="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-3">
 						{gallery.map((image, i) => (
 							<button
 								type="button"
 								class="lightbox-trigger block cursor-zoom-in overflow-hidden rounded-lg border border-line"
+								data-lightbox-group={entry.id}
 								data-lightbox-src={galleryFull[i].src}
 								data-lightbox-alt={displayTitle}
 							>
@@ -135,6 +154,8 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 					</div>
 				)
 			}
+
+			{displayPhotoCredit && <p class="mt-3 text-sm text-paper-dim">{displayPhotoCredit}</p>}
 
 			<div class="entry-content mt-10 text-lg leading-relaxed text-paper-dim">
 				<Content />

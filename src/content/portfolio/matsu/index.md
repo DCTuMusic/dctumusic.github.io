@@ -4,8 +4,8 @@ titleZh: "馬祖國際藝術島 動態識別"
 client: "Matsu Biennial"
 clientZh: "馬祖國際藝術島"
 year: 2022
-role: "Composer"
-roleZh: "配樂"
+role: "Sound Designer"
+roleZh: "聲音設計"
 mediaType: ["Animation","Commercial"]
 musicGenre: [ "Electronic","SoundDesign"]
 featured: false

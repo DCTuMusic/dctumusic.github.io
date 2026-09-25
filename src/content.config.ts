@@ -26,7 +26,17 @@ const portfolio = defineCollection({
 			// clips that would otherwise show huge black bars full-width).
 			// false (default) = stack each one full-width, one per row.
 			embedsGrid: z.boolean().default(false),
+			// true = the YouTube embeds on this project are 360 videos. Embedded
+			// YouTube players no longer expose their own 360 controls, so the site
+			// drives the camera from pointer drags instead.
+			video360: z.boolean().default(false),
+			// Optional single image shown above the write-up, between the video
+			// and the text.
+			leadImage: image().optional(),
 			gallery: z.array(image()).default([]),
+			// Optional credit line under the gallery, e.g. "Images courtesy of …".
+			photoCredit: z.string().optional(),
+			photoCreditZh: z.string().optional(),
 			summary: z.string(),
 			summaryZh: z.string().optional(),
 			// Free-form role/name pairs, e.g. { role: "Director", name: "..." }.

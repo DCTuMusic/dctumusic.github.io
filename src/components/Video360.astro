@@ -1,0 +1,261 @@
+---
+// YouTube stopped exposing its native 360 controls to embedded players in
+// early 2026, so a spherical video pasted as a plain iframe plays flat. The
+// IFrame Player API still accepts setSphericalProperties, so this component
+// drives the camera itself from pointer drags.
+//
+// The drag surface has to sit over the picture, so it also stands in for the
+// clicks and keystrokes YouTube would otherwise have handled.
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	// A pasted YouTube embed snippet; the video id is read out of its src.
+	embed: string;
+}
+
+const { embed } = Astro.props;
+const lang = (Astro.currentLocale ?? 'en') as 'en' | 'zh-Hant';
+const t = useTranslations(lang);
+
+const videoId = embed.match(/youtube(?:-nocookie)?\.com\/embed\/([\w-]{6,})/i)?.[1];
+const playerId = `yt360-${videoId ?? Math.random().toString(36).slice(2)}`;
+// `controls=0` would also switch off YouTube's spherical renderer — with the
+// controls hidden, getSphericalProperties reports nothing and the video plays
+// flat — so the native controls stay, and the overlay works around them.
+const params = 'enablejsapi=1&playsinline=1&rel=0&iv_load_policy=3';
+---
+
+{
+	videoId && (
+		<div class="video360 absolute inset-0 bg-ink" data-player-id={playerId}>
+			<iframe
+				id={playerId}
+				class="absolute inset-0 h-full w-full"
+				src={`https://www.youtube.com/embed/${videoId}?${params}`}
+				frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen
+			/>
+
+			{/* Leaves both YouTube control rows clickable: title, CC and settings
+			    sit along the top of an embedded player, the scrubber along the
+			    bottom. Only the picture between them is draggable. */}
+			<div
+				class="drag-layer absolute inset-x-0 hidden cursor-grab"
+				tabindex="0"
+				role="application"
+				aria-label={t('video360.hint')}
+			/>
+
+			<p class="drag-hint pointer-events-none absolute left-3 hidden rounded-full bg-ink/70 px-3 py-1 text-xs text-paper">
+				{t('video360.hint')}
+			</p>
+		</div>
+	)
+}
+
+<style>
+	.drag-layer {
+		touch-action: none;
+		/* The layer is a transparent sheet over the picture, so a focus ring
+		   reads as a stray box drawn across the video. */
+		outline: none;
+		/* Measured from the player's height — see the script. */
+		top: var(--top-gap, 3.5rem);
+		bottom: var(--bottom-gap, 3rem);
+	}
+	.drag-layer.is-active {
+		display: block;
+	}
+	.drag-layer.is-dragging {
+		cursor: grabbing;
+	}
+	.drag-hint {
+		top: calc(var(--top-gap, 3.5rem) + 0.5rem);
+	}
+	.drag-hint.is-active {
+		display: block;
+	}
+	.video360:fullscreen {
+		width: 100%;
+		height: 100%;
+		background: #000;
+	}
+</style>
+
+<script>
+	// Degrees of camera movement per pixel dragged: a drag across a 560px-wide
+	// player turns roughly a half-circle.
+	const DEGREES_PER_PIXEL = 0.32;
+
+	// Below this much movement a drag is treated as a plain click instead.
+	const CLICK_SLOP_PX = 6;
+
+	type Spherical = { yaw: number; pitch: number; roll: number; fov: number };
+	type Player = {
+		getSphericalProperties: () => Spherical | Record<string, never>;
+		setSphericalProperties: (props: Partial<Spherical>) => void;
+		getPlayerState: () => number;
+		playVideo: () => void;
+		pauseVideo: () => void;
+		getCurrentTime: () => number;
+		seekTo: (seconds: number, allowSeekAhead: boolean) => void;
+		isMuted: () => boolean;
+		mute: () => void;
+		unMute: () => void;
+	};
+
+	function loadApi(): Promise<void> {
+		const w = window as any;
+		if (w.YT?.Player) return Promise.resolve();
+		if (!w.__yt360ApiPromise) {
+			w.__yt360ApiPromise = new Promise<void>((resolve) => {
+				const previous = w.onYouTubeIframeAPIReady;
+				w.onYouTubeIframeAPIReady = () => {
+					previous?.();
+					resolve();
+				};
+				const script = document.createElement('script');
+				script.src = 'https://www.youtube.com/iframe_api';
+				document.head.appendChild(script);
+			});
+		}
+		return w.__yt360ApiPromise;
+	}
+
+	// YouTube's control rows grow with the player, so the strips the overlay
+	// leaves uncovered are measured as a share of its height rather than fixed
+	// — at fullscreen a 48px gap leaves the scrubber underneath the overlay.
+	function measureGaps(root: HTMLElement) {
+		const height = root.clientHeight;
+		if (!height) return;
+		const clamp = (value: number) => Math.min(130, Math.max(36, value));
+		root.style.setProperty('--top-gap', `${clamp(height * 0.1)}px`);
+		root.style.setProperty('--bottom-gap', `${clamp(height * 0.13)}px`);
+	}
+
+	function toggleFullscreen(root: HTMLElement) {
+		if (document.fullscreenElement) document.exitFullscreen();
+		else root.requestFullscreen?.();
+	}
+
+	function togglePlayOn(player: Player) {
+		const PLAYING = (window as any).YT.PlayerState.PLAYING;
+		if (player.getPlayerState() === PLAYING) player.pauseVideo();
+		else player.playVideo();
+	}
+
+	function attachDrag(root: HTMLElement, player: Player, attempt = 0) {
+		const layer = root.querySelector<HTMLElement>('.drag-layer');
+		const hint = root.querySelector<HTMLElement>('.drag-hint');
+		if (!layer || layer.classList.contains('is-active')) return;
+
+		// Spherical properties stay empty until playback is properly under way,
+		// which lags the PLAYING event — so a few empty reads mean "not yet",
+		// and only a run of them means the video isn't spherical at all.
+		const initial = player.getSphericalProperties();
+		if (!('yaw' in initial)) {
+			if (attempt < 10) setTimeout(() => attachDrag(root, player, attempt + 1), 400);
+			return;
+		}
+
+		layer.classList.add('is-active');
+		hint?.classList.add('is-active');
+
+		let yaw = initial.yaw;
+		let pitch = initial.pitch;
+		let lastX = 0;
+		let lastY = 0;
+		let travelled = 0;
+		let pointerId: number | null = null;
+		let clickTimer = 0;
+
+		layer.addEventListener('pointerdown', (event) => {
+			pointerId = event.pointerId;
+			lastX = event.clientX;
+			lastY = event.clientY;
+			travelled = 0;
+			layer.setPointerCapture(event.pointerId);
+			layer.classList.add('is-dragging');
+			layer.focus({ preventScroll: true });
+		});
+
+		layer.addEventListener('pointermove', (event) => {
+			if (pointerId !== event.pointerId) return;
+			const dx = event.clientX - lastX;
+			const dy = event.clientY - lastY;
+			travelled += Math.abs(dx) + Math.abs(dy);
+			if (travelled > CLICK_SLOP_PX) hint?.remove();
+			yaw = (yaw + dx * DEGREES_PER_PIXEL + 360) % 360;
+			pitch = Math.max(-90, Math.min(90, pitch + dy * DEGREES_PER_PIXEL));
+			lastX = event.clientX;
+			lastY = event.clientY;
+			player.setSphericalProperties({ yaw, pitch });
+		});
+
+		const end = (event: PointerEvent) => {
+			if (pointerId !== event.pointerId) return;
+			pointerId = null;
+			layer.classList.remove('is-dragging');
+			// Held briefly so a second click can cancel it and count as the
+			// double-click that toggles fullscreen instead.
+			if (travelled <= CLICK_SLOP_PX) clickTimer = window.setTimeout(() => togglePlayOn(player), 250);
+		};
+		layer.addEventListener('pointerup', end);
+		layer.addEventListener('pointercancel', end);
+
+		layer.addEventListener('dblclick', () => {
+			clearTimeout(clickTimer);
+			toggleFullscreen(root);
+		});
+
+		layer.addEventListener('keydown', (event) => {
+			const seek = (offset: number) => player.seekTo(player.getCurrentTime() + offset, true);
+			const actions: Record<string, () => void> = {
+				' ': () => togglePlayOn(player),
+				k: () => togglePlayOn(player),
+				f: () => toggleFullscreen(root),
+				m: () => (player.isMuted() ? player.unMute() : player.mute()),
+				ArrowLeft: () => seek(-5),
+				ArrowRight: () => seek(5),
+				j: () => seek(-10),
+				l: () => seek(10),
+			};
+			const action = actions[event.key.length === 1 ? event.key.toLowerCase() : event.key];
+			if (!action) return;
+			event.preventDefault();
+			action();
+		});
+	}
+
+	// Binding a player to an iframe that hasn't finished loading silently drops
+	// its events, so wait for the frame first — with a ceiling, since a frame
+	// that loaded before this listener attached will never fire `load`.
+	function waitForFrame(root: HTMLElement): Promise<void> {
+		const frame = root.querySelector('iframe');
+		if (!frame) return Promise.resolve();
+		return Promise.race([
+			new Promise<void>((resolve) => frame.addEventListener('load', () => resolve(), { once: true })),
+			new Promise<void>((resolve) => setTimeout(resolve, 3000)),
+		]);
+	}
+
+	async function init(root: HTMLElement) {
+		measureGaps(root);
+		new ResizeObserver(() => measureGaps(root)).observe(root);
+
+		await Promise.all([loadApi(), waitForFrame(root)]);
+		const w = window as any;
+
+		new w.YT.Player(root.dataset.playerId, {
+			events: {
+				onStateChange: (event: { data: number; target: Player }) => {
+					if (event.data !== w.YT.PlayerState.PLAYING) return;
+					attachDrag(root, event.target);
+				},
+			},
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>('.video360').forEach(init);
+</script>

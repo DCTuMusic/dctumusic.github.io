@@ -19,6 +19,11 @@ export const tagLabelsZh: Record<string, string> = {
 	Experimental: '實驗',
 	Acoustic: '原聲',
 	Ambient: '氛圍',
+	Exhibition: '展覽',
+	Performance: '演出',
+	'Immersive Sound Design': '沈浸式聲響設計',
+	'Live Performance': '現場演出',
+	'Interactive Sound Design': '互動聲音設計',
 	
 };
 
