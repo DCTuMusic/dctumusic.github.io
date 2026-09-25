@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getPrevNext } from '../lib/projectSequence';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+	currentId: string;
+	lang: 'en' | 'zh-Hant';
+}
+
+const { currentId, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const all = await getCollection('portfolio');
+const { prev, next } = getPrevNext(all, currentId);
+const hasPrev = prev.id !== next.id && prev.id !== currentId;
+const hasNext = next.id !== currentId;
+
+function info(entry: typeof prev) {
+	return {
+		href: getRelativeLocaleUrl(lang, `/portfolio/${entry.id}`),
+		title: (lang === 'zh-Hant' && entry.data.titleZh) || entry.data.title,
+		};
+}
+const p = hasPrev ? info(prev) : null;
+const n = hasNext ? info(next) : null;
+---
+
+{
+	(p || n) && (
+		<section class="mt-44 border-t border-line py-10">
+			<div class="grid gap-4 sm:grid-cols-2 sm:gap-x-16">
+				{[
+					{ item: p, label: t('portfolio.prev'), side: 'sm:justify-end' },
+					{ item: n, label: t('portfolio.next'), side: 'sm:justify-start' },
+				].map(
+					({ item, label, side }) => (
+						<div class:list={['flex justify-center', side]}>
+							{item && (
+							<a href={item.href} class="group flex flex-wrap items-baseline gap-x-3">
+								<span class="text-xs tracking-wide text-paper-dim uppercase">{label}</span>
+								<span class="text-base font-medium text-paper transition-colors group-hover:text-accent">{item.title}</span>
+							</a>
+							)}
+						</div>
+					),
+				)}
+			</div>
+		</section>
+	)
+}

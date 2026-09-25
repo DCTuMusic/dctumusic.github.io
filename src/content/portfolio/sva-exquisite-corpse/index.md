@@ -5,7 +5,7 @@ clientZh: "紐約視覺藝術學院"
 year: 2022
 role: "Sound Designer"
 roleZh: "聲音設計"
-mediaType: ["Animation"]
+mediaType: ["Animation","Film"]
 musicGenre: ["Electronic","SoundDesign"]
 featured: false
 cover: "./cover.png"
