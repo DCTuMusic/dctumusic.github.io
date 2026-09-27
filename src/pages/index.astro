@@ -8,11 +8,18 @@ import AboutBlurb from '../components/AboutBlurb.astro';
 import ClientLogos from '../components/ClientLogos.astro';
 import Services from '../components/Services.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
+import Testimonials from '../components/Testimonials.astro';
 import { homepageCopy } from '../data/homepage';
+import { bioCopy } from '../data/bio';
+import { servicesCopy } from '../data/services';
+import { processCopy } from '../data/process';
 import type { ImageMetadata } from 'astro:assets';
 
 const lang = (Astro.currentLocale ?? 'en') as keyof typeof homepageCopy;
 const copy = homepageCopy[lang];
+const bio = bioCopy[lang];
+const services = servicesCopy[lang];
+const workProcess = processCopy[lang];
 
 // Drop one photo into src/assets/about/ (any filename) and it shows up here.
 const aboutPhotos = import.meta.glob<{ default: ImageMetadata }>(
@@ -30,15 +37,16 @@ const aboutPhoto = Object.values(aboutPhotos)[0]?.default;
 		<Slogan text={copy.slogan1} />
 		<FeaturedWork />
 		<Slogan text={copy.slogan2} />
-		<AboutBlurb text={copy.bio} photo={aboutPhoto} />
+		<AboutBlurb text={bio} photo={aboutPhoto} />
 		<ClientLogos />
 		<Services
-			label={copy.services.label}
-			items={copy.services.items}
-			howIWorkLabel={copy.services.howIWorkLabel}
-			howIWork={copy.services.howIWork}
+			label={services.label}
+			items={services.items}
+			howIWorkLabel={services.howIWorkLabel}
+			howIWork={services.howIWork}
 		/>
-		<ProcessSteps heading={copy.process.heading} items={copy.process.items} />
+		<ProcessSteps heading={workProcess.heading} items={workProcess.items} />
+		<Testimonials heading={copy.testimonials.heading} items={copy.testimonials.items} />
 		<Slogan text={copy.slogan3} />
 	</main>
 </Layout>

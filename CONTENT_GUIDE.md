@@ -159,18 +159,18 @@ To add, remove, or reorder them: go to `src/assets/art-hero/` and drop image fil
 
 ## Homepage slogans and bio
 
-All of this lives in one place: `src/data/homepage.ts`. It has an `en` block and a `zh-Hant` block, each with `heroTagline` (`heading` + `subtext`), `slogan1`, `slogan2`, `slogan3`, and `bio`. Fill in whichever strings you're ready to write — leave the rest as `''` and that section shows a placeholder box instead of breaking (the `heroTagline` is the exception: leaving `heading` blank just hides the text overlay on the hero video entirely, rather than showing a placeholder box on top of the video).
+The slogans live in `src/data/homepage.ts`. It has an `en` block and a `zh-Hant` block, each with `heroTagline` (`heading` + `subtext`), `slogan1`, `slogan2`, and `slogan3`. Fill in whichever strings you're ready to write — leave the rest as `''` and that section shows a placeholder box instead of breaking (the `heroTagline` is the exception: leaving `heading` blank just hides the text overlay on the hero video entirely, rather than showing a placeholder box on top of the video).
 
-`bio` is a list of strings, one per paragraph, e.g. `bio: ['First paragraph.', 'Second paragraph.']` — each entry renders as its own paragraph in the About section. A single paragraph still works fine as a one-item list.
+The About bio paragraphs are in their own file, `src/data/bio.ts` — also an `en` block and a `zh-Hant` block, each a list of strings, one per paragraph, e.g. `['First paragraph.', 'Second paragraph.']`. Each entry renders as its own paragraph in the About section. A single paragraph still works fine as a one-item list.
 
-You don't need to touch `src/pages/index.astro` or `src/pages/zh-hant/index.astro` at all for this — both pages read from this same file and automatically pick the right language block.
+You don't need to touch `src/pages/index.astro` or `src/pages/zh-hant/index.astro` at all for this — both pages read from these files and automatically pick the right language block.
 
 ## Homepage services section
 
-Also in `src/data/homepage.ts`, right under `bio`, there's a `services` block — this is the numbered list (currently 01/02/03) shown right after the About section on the homepage:
+`src/data/services.ts` has the numbered list (currently 01/02/03) shown right after the About section on the homepage:
 
 ```
-services: {
+en: {
   label: 'Services',              // small heading above the list
   items: [
     { number: '01', title: '...', body: '...' },
@@ -182,14 +182,14 @@ services: {
 },
 ```
 
-Add, remove, or reorder entries in `items` freely — the list just renders whatever's there. Both the `en` and `zh-Hant` blocks have their own `services`, so update both if you want the change on both languages.
+Add, remove, or reorder entries in `items` freely — the list just renders whatever's there. Both the `en` and `zh-Hant` blocks have their own copy, so update both if you want the change on both languages.
 
 ## Homepage process section
 
-Right after `services` in the same file, `process` is the numbered list (currently /01–/04) shown right after the Services section on the homepage:
+`src/data/process.ts` has the numbered list (currently /01–/04) shown right after the Services section on the homepage:
 
 ```
-process: {
+en: {
   heading: 'How the work is made',
   items: [
     { number: '/01', title: '...', body: '...' },
@@ -234,7 +234,8 @@ Open `src/data/site.ts` and edit `email` and the `socials` block (Instagram / Fa
 Where the Chinese version of each kind of content goes:
 
 - **Nav labels and other site-wide UI strings** — `src/i18n/ui.ts`, fill in the `'zh-Hant'` object.
-- **Homepage slogans and bio** — `src/data/homepage.ts`, the `'zh-Hant'` block (see above).
+- **Homepage slogans** — `src/data/homepage.ts`, the `'zh-Hant'` block (see above).
+- **Homepage bio / services / process** — `src/data/bio.ts`, `src/data/services.ts`, `src/data/process.ts`, each has its own `'zh-Hant'` block.
 - **Contact email / social links** — shared between languages by design (same email, same accounts), nothing to translate.
 - **Portfolio project title / role / summary** — same `index.md` file as the English version, in the `titleZh` / `roleZh` / `summaryZh` fields right next to the English ones. Leave any of them blank and that entry falls back to the English text automatically.
 - **Art piece title / summary** — same file, `titleZh` / `summaryZh` fields.

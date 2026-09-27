@@ -1,6 +1,9 @@
 // Homepage prose, one block per language. Fill in the empty strings and both
 // src/pages/index.astro and src/pages/zh-hant/index.astro pick it up
 // automatically — no need to edit the page files themselves.
+//
+// The About bio, Services, and Process sections have their own files:
+// src/data/bio.ts, src/data/services.ts, src/data/process.ts.
 export const homepageCopy = {
 	en: {
 		heroTagline: {
@@ -8,59 +11,27 @@ export const homepageCopy = {
 			subtext:
 				'Sound design and original score for spaces, film, and performance — whether it surrounds a room, a screen, or a pair of headphones.',
 		},
-		slogan1: 'I shape scenes with sonic textures and acoustics.',
+		slogan1: 'Designing Complete Listening Experiences.',
 		slogan2: '',
-		slogan3: 'Designing Complete Listening Experiences.',
-		bio: [
-			'Yen-Hao "DC" Tu is a Taiwanese composer and sound designer working across film, animation, sound installation, exhibition, and performance.',
-			'Films he has scored have been selected for the New York Asian Film Festival, Huesca International Film Festival, Uppsala International Short Film Festival, and PRIX JEUNESSE International in Munich. His acousmatic work was a winner of TPMC petites formes 2024 in Paris.',
-			"He has created sound for the ASICS Women Running campaign, Museum of Fine Arts Boston campaign, the Matsu Biennial motion identity, and Yodex's 40th anniversary campaign, working with studios including O.OO, Base Design, and Aaron Nieh Workshop. He was lead sound designer and immersive sound engineer for the 8-channel immersive theater Giant Unearthed: A Taiwan Whale’s Tale  at the National Museum of Natural Science.",
-		],
-		services: {
-			label: 'Services',
-			items: [
-				
-				{
-					number: '01',
-					title: 'Score & Sound Design',
-					body: 'Original score and sound design for the moving image. Animation, brand films, films, dance.',
-				},
-				{
-					number: '02',
-					title: 'Spatial & Multichannel Sound',
-					body: 'Sound for spaces, exhibitions, and immersive experiences. Produced remotely, delivered on-site.',
-				},
-				{
-					number: '03',
-					title: 'Music Supervision',
-					body: 'Sourcing, curating, and clearing existing tracks.',
-				},
-			],
-			howIWorkLabel: 'How I work',
-			howIWork: 'Working remotely with clients worldwide. Available on-site for spatial projects.',
-		},
-		process: {
-			heading: 'How the work is made',
+		slogan3:
+			'More than a soundtrack.\nFinding the right sound is hard. Knowing when to hold back is harder.\nWhat you need is integrated music and sound design to bring your vision into focus, align sound with image, and make your story resonate long after it ends.',
+		testimonials: {
+			heading: 'Client Feedback',
 			items: [
 				{
-					number: '01',
-					title: 'Goal',
-					body: 'What the sound needs to achieve. What the audience should feel, and what they should remember.',
+					role: 'Animation Director',
+					quote:
+						"The hardest part of finding a composer is finding someone who truly understands the filmmaker's vision and actively thinks alongside you. Yen takes the time to grasp the core of the work before deciding where music is genuinely needed. He articulates the rationale behind every musical choice, which in turn inspired me to reflect on the rhythm and state of the visuals.",
 				},
 				{
-					number: '02',
-					title: 'Tone',
-					body: 'Texture, space, and distance. What instruments, melody or texture, restrained or lush.',
+					role: 'Choreographer',
+					quote:
+						'While stock music might get you close, it always feels limiting. Collaborating with Yen from the ground up made all the difference. We built the duration, structure, and mood together, giving the work a real sense of depth that transformed not just the audio, but the bodies and the entire space.',
 				},
 				{
-					number: '03',
-					title: 'Production',
-					body: 'Writing the full score and sound design. Deciding what you hear, and what sits behind it.',
-				},
-				{
-					number: '04',
-					title: 'Mix',
-					body: 'Mixing is to sound what color grading is to picture. The same material can be finished to stand out, or to sit perfectly in the scene.',
+					role: 'Documentary Director',
+					quote:
+						"Working with a composer for the first time, I was worried that not knowing the technical terms would make it hard to communicate. But Yen started with the story and how it felt. He told me that understanding the music was his job as a composer; mine was simply to be clear about what the film was trying to say. What he delivered captured exactly what I had described, and it tied the whole film together from start to finish.",
 				},
 			],
 		},
@@ -70,59 +41,27 @@ export const homepageCopy = {
 			heading: '以聲音造境',
 			subtext: '為影像、空間與表演藝術創作能讓人沉浸的配樂與聲音設計。',
 		},
-		slogan1: '我用聲音的材質與空間來刻畫場景',
+		slogan1: '透過聲音為你的作品創造完整的體驗',
 		slogan2: '',
-		slogan3: '透過聲音為你的作品創造完整的體驗',
-		bio: [
-			'杜彥豪（DC Tu）是台灣配樂作曲家與聲音設計師。作品橫跨影像、動畫、藝術裝置、展覽與表演藝術，擅長以聲音構築敘事張力與空間維度。',
-			'其兼具影像配樂與空間聲響設計：影像作品曾入選紐約亞洲影展（New York Asian Film Festival）、西班牙威斯卡國際影展（Huesca International Film Festival）、瑞典烏普薩拉國際短片影展（Uppsala Short Film Festival）與德國慕尼黑兒少影展（Prix Jeunesse International）；在跨域與空間場域中，曾擔任國立自然科學博物館《鯨掘》沉浸劇場之聲音設計與音響工程。',
-			'他同時廣泛跨足品牌聲音識別，曾與 O.OO、Base Design、Aaron Nieh Workshop 等設計工作室合作，操刀包括 ASICS 形象廣告、波士頓美術館（MFA Boston）品牌影片、馬祖國際藝術島動態識別，以及新一代設計展四十週年主視覺之聲音創作。',
-		],
-		services: {
-			label: '服務項目',
-			items: [
-				
-				{
-					number: '01',
-					title: '影像配樂與聲音設計',
-					body: '為影像量身打造原創音樂與聲音設計。動畫、品牌影片、電影、舞蹈。',
-				},
-				{
-					number: '02',
-					title: '空間與多聲道聲音設計',
-					body: '為空間、展覽與沉浸式體驗設計聲音。遠端製作，可到場執行。',
-				},
-				{
-					number: '03',
-					title: '音樂選曲',
-					body: '協助尋找、篩選並處理既有曲目的授權。',
-				},
-			],
-			howIWorkLabel: '合作方式',
-			howIWork: '全球遠端合作；空間類專案可到場。',
-		},
-		process: {
-			heading: '聲音設計流程',
+		slogan3:
+			'你需要的，不只是一首好聽的配樂\n不確定什麼情緒該用什麼聲音，也不確定哪個段落才真正需要留白。\n你需要的是一套系統性的音樂與聲音設計。\n讓聽覺精準咬合畫面，將作品的故事說得更深刻、更有份量。',
+		testimonials: {
+			heading: '客戶回饋',
 			items: [
 				{
-					number: '01',
-					title: '目標',
-					body: '找出這件作品的聲音要達成什麼。觀眾該感覺到什麼，又該記得什麼。',
+					role: '動畫導演',
+					quote:
+						'找配樂師最難的，是對方要讀懂影像的人想說什麼，還要能幫你想。彥豪會先了解作品要談什麼，再判斷哪裡需要音樂，也會把詮釋的理由講出來，反過來讓我重新思考影像本身的狀態。',
 				},
 				{
-					number: '02',
-					title: '定調',
-					body: '決定聲音的質地、空間與距離。用什麼樂器，走旋律還是聲響，要隱晦還是華麗。',
+					role: '編舞家',
+					quote:
+						'現成音樂雖然能找到接近的，但也會變成一種局限。和彥豪從零開始討論時長、架構與風格，做出來的音樂和氛圍讓作品更立體，不只是聽覺，對身體和空間都有幫助。',
 				},
 				{
-					number: '03',
-					title: '製作',
-					body: '寫出完整的配樂與聲音設計，決定什麼該被聽見，什麼該退到後面。',
-				},
-				{
-					number: '04',
-					title: '混音',
-					body: '混音之於聲音，就像調色之於影像。同樣的素材，可以修得奪目，也可以修得完全貼合場景。',
+					role: '紀錄片導演',
+					quote:
+						'第一次找配樂，我很擔心自己不懂音樂術語，沒辦法好好溝通。但 DC 從感受和故事聊起，他說懂音樂是配樂家的責任，我只要把片子想說的講清楚就好。後來交回來的配樂，就是我描述的那種感覺，整部片也從頭到尾連成一體。',
 				},
 			],
 		},
