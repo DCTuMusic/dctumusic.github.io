@@ -6,7 +6,7 @@ clientZh: "國立自然科學博物館"
 year: 2025
 role: "Sound Designer, Immersive Sound Engineer"
 roleZh: "聲音設計、沉浸式音響設計"
-mediaType: ["Exhibition", "Installation"]
+mediaType: ["Exhibition"]
 musicGenre: ["SoundDesign", "Immersive Sound Design"]
 featured: false
 cover: "./cover.jpg"

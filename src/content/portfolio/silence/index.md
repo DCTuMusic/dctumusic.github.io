@@ -6,7 +6,7 @@ year: 2022
 role: "Interactive Sound Designer,Composer, Drummer"
 roleZh: "互動聲音設計、配樂、鼓手"
 mediaType: ["Dance"]
-musicGenre: ["Electronic","Experimental","SoundDesign","Interactive Sound Design","Live Performance"]
+musicGenre: ["Electronic","Experimental","SoundDesign"]
 featured: false
 cover: "./cover.jpg"
 embeds:

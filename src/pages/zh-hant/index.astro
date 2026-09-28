@@ -29,7 +29,7 @@ const aboutPhotos = import.meta.glob<{ default: ImageMetadata }>(
 const aboutPhoto = Object.values(aboutPhotos)[0]?.default;
 ---
 
-<Layout hasHero>
+<Layout hasHero title="Yen-Hao Tu - Composer& Sound Designer | 杜彥豪 - 配樂與聲音設計">
 	<main>
 		<HeroVideo heading={copy.heroTagline.heading} subtext={copy.heroTagline.subtext} />
 		<div id="hero-boundary" aria-hidden="true"></div>

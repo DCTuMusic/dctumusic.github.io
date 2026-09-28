@@ -6,7 +6,7 @@ clientZh: "李炳曄、國立臺灣美術館"
 year: 2024
 role: "Opening Artist, Immersive Sound Engineer"
 roleZh: "開幕演出、沉浸式音響"
-mediaType: ["Exhibition", "Performance", "Installation"]
+mediaType: ["Exhibition"]
 musicGenre: ["Immersive Sound Design", "Experimental", "Electronic"]
 featured: false
 cover: "./cover.png"
