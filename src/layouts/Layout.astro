@@ -18,6 +18,16 @@ const {
 } = Astro.props;
 
 const ogImage = new URL(`${import.meta.env.BASE_URL}og-image.jpg`, Astro.site).toString();
+
+// Same page in each language, for hreflang. zh-hant mirrors the English route tree.
+const base = import.meta.env.BASE_URL;
+const rootPath = base.replace(/\/$/, '');
+const relPath = Astro.url.pathname.startsWith(base)
+	? '/' + Astro.url.pathname.slice(base.length)
+	: Astro.url.pathname;
+const sharedPath = relPath.replace(/^\/zh-hant(?=\/|$)/i, '') || '/';
+const enUrl = new URL(`${rootPath}${sharedPath}`, Astro.site).toString();
+const zhUrl = new URL(`${rootPath}/zh-hant${sharedPath}`, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -25,6 +35,36 @@ const ogImage = new URL(`${import.meta.env.BASE_URL}og-image.jpg`, Astro.site).t
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Runs before first paint: send first-time visitors to the language their browser prefers.
+		     A language picked via the header switcher (localStorage "lang") always wins. -->
+		<script is:inline define:vars={{ base }}>
+			(function () {
+				try {
+					var path = location.pathname;
+					var rel = path.indexOf(base) === 0 ? '/' + path.slice(base.length) : path;
+					var onZh = /^\/zh-hant(\/|$)/i.test(rel);
+
+					var pref = null;
+					try {
+						pref = localStorage.getItem('lang');
+					} catch (e) {}
+					if (pref !== 'en' && pref !== 'zh-hant') {
+						var first = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+						pref = /^zh/i.test(first) ? 'zh-hant' : 'en';
+					}
+
+					var root = base.replace(/\/$/, '');
+					var shared = rel.replace(/^\/zh-hant(?=\/|$)/i, '') || '/';
+					var target = null;
+					if (pref === 'zh-hant' && !onZh) target = root + '/zh-hant' + shared;
+					else if (pref === 'en' && onZh) target = root + shared;
+					if (target) location.replace(target + location.search + location.hash);
+				} catch (e) {}
+			})();
+		</script>
+		<link rel="alternate" hreflang="en" href={enUrl} />
+		<link rel="alternate" hreflang="zh-Hant" href={zhUrl} />
+		<link rel="alternate" hreflang="x-default" href={enUrl} />
 		<link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}favicon-96x96.png`} sizes="96x96" />
 		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="any" />
 		<link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />

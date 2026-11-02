@@ -76,6 +76,7 @@ function isActive(href: string) {
 								{i > 0 && <span class="text-paper-dim/40">/</span>}
 								<a
 									href={switchLangPath(currentPath, code)}
+									data-set-lang={code}
 									class={
 										lang === code
 											? 'text-paper'
@@ -124,6 +125,7 @@ function isActive(href: string) {
 								{i > 0 && <span class="text-paper-dim/40">/</span>}
 								<a
 									href={switchLangPath(currentPath, code)}
+									data-set-lang={code}
 									class={
 										lang === code
 											? 'text-paper'
@@ -213,6 +215,7 @@ function isActive(href: string) {
 									{i > 0 && <span class="text-paper-dim/40">/</span>}
 									<a
 										href={switchLangPath(currentPath, code)}
+									data-set-lang={code}
 										class={
 											lang === code
 												? 'text-paper'
@@ -261,6 +264,7 @@ function isActive(href: string) {
 									{i > 0 && <span class="text-paper-dim/40">/</span>}
 									<a
 										href={switchLangPath(currentPath, code)}
+									data-set-lang={code}
 										class={
 											lang === code
 												? 'text-paper'
@@ -311,6 +315,17 @@ function isActive(href: string) {
 			});
 		});
 	}
+
+	// A manual pick beats the browser-language guess in Layout.astro's inline script.
+	const rememberLang = (link: HTMLAnchorElement) => {
+		try {
+			localStorage.setItem('lang', (link.dataset.setLang ?? '').toLowerCase());
+		} catch {}
+	};
+	document.querySelectorAll<HTMLAnchorElement>('a[data-set-lang]').forEach((link) => {
+		link.addEventListener('click', () => rememberLang(link));
+		link.addEventListener('auxclick', () => rememberLang(link));
+	});
 
 	bindMenu('menu-toggle', 'mobile-menu', 'mobile-link');
 	bindMenu('hero-menu-toggle', 'hero-mobile-menu', 'hero-mobile-link');
