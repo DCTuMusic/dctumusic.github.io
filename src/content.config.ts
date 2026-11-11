@@ -18,6 +18,16 @@ const portfolio = defineCollection({
 			musicGenre: z.array(z.string()),
 			featured: z.boolean().default(false),
 			cover: image(),
+			// Optional. Which part of the cover stays visible when the portfolio
+			// grid crops it to 16:9, as a CSS object-position value ("x% y%").
+			// "50% 0%" keeps the top, "50% 100%" keeps the bottom. Default: centre.
+			coverPosition: z.string().optional(),
+			// Optional. A different image to use only in the homepage "Featured work"
+			// row (always shown 16:9). Falls back to `cover`.
+			featuredImage: image().optional(),
+			// Optional. Which part of the featured image stays visible in that 16:9
+			// frame, as a CSS object-position ("50% 0%" = keep the top). Default: centre.
+			featuredPosition: z.string().optional(),
 			// Paste one or more full embed snippets from Vimeo, YouTube,
 			// SoundCloud, or anywhere else that gives you an <iframe> — each
 			// renders as-is, in the order listed.

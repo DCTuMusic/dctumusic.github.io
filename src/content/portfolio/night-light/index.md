@@ -10,6 +10,7 @@ mediaType: ["Film"]
 musicGenre: ["Electronic","Experimental","SoundDesign","Ambient"]
 featured: false
 cover: "./cover.jpg"
+coverPosition: "50% 45%"
 embeds:
   - '<iframe src="https://player.vimeo.com/video/521261930?h=9cc32aebe3&badge=0&autopause=0&player_id=0&app_id=58479" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
   - '<iframe src="https://player.vimeo.com/video/521267154?h=7843a7fedd&badge=0&autopause=0&player_id=0&app_id=58479" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'

@@ -15,6 +15,11 @@
 }
 
 html {
+	/* Everything sized in rem (Tailwind spacing, text, max-w) scales with this.
+	   16px up to a 1536px-wide window, then grows with width (20px at 1920,
+	   ≈26.7px at 2560, 32px cap at 3072+) so big monitors show the same layout
+	   as a 14" laptop, just proportionally larger. */
+	font-size: clamp(16px, 1.0417vw, 32px);
 	scroll-behavior: smooth;
 	/* `clip` rather than `hidden`: full-bleed elements overshoot by the
 	   scrollbar's width, and `hidden` would turn this into a scroll container

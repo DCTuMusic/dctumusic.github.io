@@ -10,6 +10,7 @@ mediaType: ["Animation", "Commercial"]
 musicGenre: [ "SoundDesign"]
 featured: false
 cover: "./cover.png"
+coverPosition: "50% 0%"
 embeds:
   - '<iframe src="https://player.vimeo.com/video/525772583?h=4996627548&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="240" height="300" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="New Year Motion for TMOFA"></iframe>'
 gallery: []

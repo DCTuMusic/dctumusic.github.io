@@ -10,6 +10,7 @@ mediaType: ["Exhibition"]
 musicGenre: ["Immersive Sound Design", "Experimental", "Electronic"]
 featured: false
 cover: "./cover.png"
+coverPosition: "50% 20%"
 embeds: []
 gallery:
   - "./performance_0.jpg"

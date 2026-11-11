@@ -9,6 +9,7 @@ mediaType: ["Dance"]
 musicGenre: ["Electronic","Experimental","SoundDesign"]
 featured: false
 cover: "./cover.jpg"
+coverPosition: "50% 42%"
 embeds:
   - '<iframe src="https://player.vimeo.com/video/834297202?title=0&byline=0&portrait=0&speed=0&badge=0&autopause=0&player_id=0&app_id=58479" width="240" height="426" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
   - '<iframe src="https://player.vimeo.com/video/834297228?badge=0&autopause=0&player_id=0&app_id=58479" width="240" height="426" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'

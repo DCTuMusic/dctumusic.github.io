@@ -11,6 +11,7 @@ mediaType: ["Animation", "Film"]
 musicGenre: ["Acoustic","Orchestral"]
 featured: true
 cover: "./cover.jpg"
+featuredImage: "./cover (old).jpg"
 embeds:
   - "<iframe title='vimeo-player' src='https://player.vimeo.com/video/794894425?h=5994df6016' width='640' height='360' frameborder='0' referrerpolicy='strict-origin-when-cross-origin' allow='autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share'   allowfullscreen></iframe>"
 gallery: []

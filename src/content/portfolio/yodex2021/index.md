@@ -10,6 +10,7 @@ mediaType: ["Animation", "Commercial"]
 musicGenre: [ "SoundDesign"]
 featured: true
 cover: "./cover.jpg"
+featuredPosition: "50% 0%"
 embeds:
   - '<iframe title="vimeo-player" src="https://player.vimeo.com/video/525774690?h=9c4e014fdd" width="640" height="1137" frameborder="0" allowfullscreen=""  class="" data-scale="26"></iframe>' 
   

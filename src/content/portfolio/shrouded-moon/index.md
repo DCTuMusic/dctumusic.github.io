@@ -10,6 +10,7 @@ mediaType: ["Dance", ]
 musicGenre: [ "Electronic","Experimental","Orchestral","Ambient"]
 featured: false
 cover: "./cover.jpg"
+coverPosition: "50% 35%"
 embeds:
   - '<iframe src="https://player.vimeo.com/video/1133150795?h=0bb1c00e46&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="SVA Design and Advertising Motion Spring Show 2021 Opener" class=""></iframe>'
 gallery: []

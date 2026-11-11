@@ -33,7 +33,8 @@ const featured = allWork
 							]}
 						>
 							<Image
-								src={entry.data.cover}
+								src={entry.data.featuredImage ?? entry.data.cover}
+								style={entry.data.featuredPosition ? `object-position: ${entry.data.featuredPosition}` : undefined}
 								alt={displayTitle}
 								class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 							/>
@@ -63,7 +64,8 @@ const featured = allWork
 					>
 						<div class="aspect-video overflow-hidden bg-ink-soft">
 							<Image
-								src={entry.data.cover}
+								src={entry.data.featuredImage ?? entry.data.cover}
+								style={entry.data.featuredPosition ? `object-position: ${entry.data.featuredPosition}` : undefined}
 								alt={displayTitle}
 								class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 							/>
