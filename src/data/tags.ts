@@ -17,7 +17,7 @@ export const tagLabelsZh: Record<string, string> = {
 	Electronic: '電子',
 	SoundDesign: '聲音設計',
 	Experimental: '實驗',
-	Acoustic: '原聲',
+	Acoustic: '原聲樂器',
 	Ambient: '氛圍',
 	Exhibition: '展覽',
 	Performance: '演出',

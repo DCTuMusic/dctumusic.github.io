@@ -10,6 +10,7 @@ mediaType: ["Exhibition"]
 musicGenre: ["SoundDesign", "Immersive Sound Design"]
 featured: false
 cover: "./cover.jpg"
+coverMobile: "./cover_phone.jpg"
 embeds:
   - '<iframe width="560" height="315"  src="https://www.youtube.com/embed/p2V5Ns5n7-o" title="【鯨掘沉浸劇場】360紀錄" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'
 video360: true
@@ -60,5 +61,5 @@ credits:
     roleZh: "投影設備與熔接"
     name: "Lotuswork Interactive"
     nameZh: "荷動設計"
-order: 1
+order: 6
 ---

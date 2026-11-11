@@ -10,6 +10,7 @@ mediaType: ["Film"]
 musicGenre: [ "Acoustic","Electronic","Orchestral"]
 featured: false
 cover: "./cover.jpg"
+coverMobile: "./cover (new).jpg"
 coverPosition: "50% 85%"
 embeds:
   - '<iframe width="560" height="315" src="https://www.youtube.com/embed/zOTcxZnoC1M?si=yCvGeRWrcGApX7We" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
@@ -25,6 +26,6 @@ credits:
     roleZh: "配樂"
     name: "Peilin Wu & DC Tu"
     nameZh: "吳沛綾、杜彥豪"
-order: 3
+order: 5
 ---
 

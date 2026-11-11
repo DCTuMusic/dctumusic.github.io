@@ -49,6 +49,19 @@ Blank lines inside that block become paragraph breaks on the page. This works th
 
 To remove a project, delete its folder.
 
+## Different cover for phones or for the homepage
+
+Three optional fields go right under `cover:` in a project's `index.md`. Leave them out and the project just uses `cover`.
+
+```
+cover: "./cover.jpg"
+coverMobile: "./cover-phone.jpg"      # shown instead of cover on phone-sized screens (under 640px wide) in the portfolio list
+featuredImage: "./cover-16x9.jpg"     # shown instead of cover in the homepage "Featured work" row (always a 16:9 frame)
+featuredPosition: "50% 0%"            # which part of the featured image stays visible: "50% 0%" = top, "50% 50%" = centre (default), "50% 100%" = bottom
+```
+
+Drop the extra image files in the project's folder, same as `cover`. `coverMobile` only changes the portfolio list page; the homepage featured row and the project's own page are not affected.
+
 ## What `order` does
 
 `order` is just a sort key — it decides what comes first, nothing else. Lower numbers show up earlier:

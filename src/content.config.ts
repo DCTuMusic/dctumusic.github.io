@@ -22,6 +22,9 @@ const portfolio = defineCollection({
 			// grid crops it to 16:9, as a CSS object-position value ("x% y%").
 			// "50% 0%" keeps the top, "50% 100%" keeps the bottom. Default: centre.
 			coverPosition: z.string().optional(),
+			// Optional. A different cover shown only on phone-sized screens (under 640px
+			// wide) in the portfolio list. Same file rules as `cover`.
+			coverMobile: image().optional(),
 			// Optional. A different image to use only in the homepage "Featured work"
 			// row (always shown 16:9). Falls back to `cover`.
 			featuredImage: image().optional(),
