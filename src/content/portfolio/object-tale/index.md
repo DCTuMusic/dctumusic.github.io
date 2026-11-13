@@ -36,7 +36,7 @@ credits:
     roleZh: "音樂"
     name: "DC Tu"
     nameZh: "杜彥豪"
-order: 10
+order: 8
 ---
 
 

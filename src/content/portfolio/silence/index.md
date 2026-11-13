@@ -40,5 +40,5 @@ credits:
     roleZh: "聲音設計"
     name: "DC Tu"
     nameZh: "杜彥豪"
-order: 14
+order: 15
 ---

@@ -29,7 +29,7 @@ credits:
     nameZh: "宋采洵"
   - role: "Composer"
     roleZh: "配樂"
-    name: "DC Tu"
+    name: "Yen-Hao Tu"
     nameZh: "杜彥豪"
 order: 9
 ---

@@ -8,7 +8,7 @@ role: "Composer"
 roleZh: "配樂"
 mediaType: ["Dance", ]
 musicGenre: [ "Electronic","Experimental","Orchestral","Ambient"]
-featured: false
+featured: true
 cover: "./cover.jpg"
 coverMobile: "./cover_phone.jpg"
 coverPosition: "50% 35%"

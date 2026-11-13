@@ -9,7 +9,7 @@ role: "Composer, Sound Designer"
 roleZh: "配樂、聲音設計"
 mediaType: ["Animation", "Film"]
 musicGenre: ["Acoustic","Orchestral"]
-featured: true
+featured: false
 cover: "./cover.jpg"
 coverMobile: "./cover (old).jpg"
 featuredImage: "./cover (old).jpg"

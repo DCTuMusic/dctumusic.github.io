@@ -60,5 +60,5 @@ credits:
     roleZh: "裝置製作協力"
     name: "New Media & Interdisciplinary Course Student Team, Department of Arts and Design, National Taipei University of Education: Yi-Yun Wu, Hsuan-Chi Yang, Choi-Ning Chan, Yun-Hsiu Chao, Ti-En Yen"
     nameZh: "國立臺北教育大學藝術與造形設計學系新媒體跨域學程學生團隊：吳佾芸、楊萱琪、陳在寧、趙芸秀、顏提恩"
-order: 7
+order: 10
 ---
