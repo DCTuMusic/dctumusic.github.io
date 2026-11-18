@@ -9,6 +9,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import Lightbox from '../../components/Lightbox.astro';
 import RelatedProjects from '../../components/RelatedProjects.astro';
 import ProjectSummary from '../../components/ProjectSummary.astro';
+import { summaryToDescription } from '../../lib/summary';
 import Video360 from '../../components/Video360.astro';
 
 export async function getStaticPaths() {
@@ -39,6 +40,7 @@ const {
 	video360,
 	leadImage,
 	gallery,
+	extraEmbeds,
 	photoCredit,
 	photoCreditZh,
 	summary,
@@ -52,10 +54,15 @@ const displayRole = (lang === 'zh-Hant' && roleZh) || role;
 const displaySummary = (lang === 'zh-Hant' && summaryZh) || summary;
 const displayPhotoCredit = (lang === 'zh-Hant' && photoCreditZh) || photoCredit;
 
+// Each `[video]` line in the write-up pulls one embed out of the pool; whatever
+// is left over sits under the photo gallery.
+const inlineEmbedCount = (displaySummary.match(/^\[video\]$/gm) ?? []).length;
+const trailingEmbeds = extraEmbeds.slice(inlineEmbedCount);
+
 const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: image, width: 1800 })));
 ---
 
-<Layout title={`${displayTitle} — Yen-Hao Tu`} description={displaySummary}>
+<Layout title={`${displayTitle} — Yen-Hao Tu`} description={summaryToDescription(displaySummary)}>
 	<main class="pt-28 pb-10 md:pb-12">
 		<div class="mx-auto max-w-[90rem] px-6 md:px-10">
 			<a href={getRelativeLocaleUrl(lang, '/portfolio')} class="text-sm text-paper-dim hover:text-accent-soft">
@@ -129,7 +136,7 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 
 			{
 				displaySummary ? (
-					<ProjectSummary summary={displaySummary} />
+					<ProjectSummary summary={displaySummary} embeds={extraEmbeds} />
 				) : (
 					<p class="mt-10 text-lg leading-relaxed whitespace-pre-line text-paper px-1 py-0.5"></p>
 					// <p class="mt-10 border border-dashed border-line px-6 py-8 text-lg text-paper-dim">
@@ -157,6 +164,21 @@ const galleryFull = await Promise.all(gallery.map((image) => getImage({ src: ima
 			}
 
 			{displayPhotoCredit && <p class="mt-3 text-sm text-paper-dim">{displayPhotoCredit}</p>}
+
+			{
+				trailingEmbeds.length > 0 && (
+					<div class="mt-8 space-y-6">
+						{trailingEmbeds.map((embed) => (
+							<div
+								class="embed-frame relative mx-auto max-w-full overflow-hidden rounded-lg border border-line bg-ink-soft"
+								style={getEmbedStyle(embed)}
+							>
+								<Fragment set:html={embed} />
+							</div>
+						))}
+					</div>
+				)
+			}
 
 			<div class="entry-content mt-10 text-lg leading-relaxed text-paper-dim">
 				<Content />

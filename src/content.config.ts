@@ -47,6 +47,10 @@ const portfolio = defineCollection({
 			// and the text.
 			leadImage: image().optional(),
 			gallery: z.array(image()).default([]),
+			// Further embed snippets, same format as `embeds`. Each `[video]`
+			// line in the write-up takes the next one; any that no line claims
+			// are shown below the photo gallery.
+			extraEmbeds: z.array(z.string()).default([]),
 			// Optional credit line under the gallery, e.g. "Images courtesy of …".
 			photoCredit: z.string().optional(),
 			photoCreditZh: z.string().optional(),

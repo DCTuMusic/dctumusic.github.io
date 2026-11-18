@@ -1,25 +1,54 @@
 ---
-import { parseSummary } from '../lib/summary';
+import { parseSummary, VIDEO_MARKER } from '../lib/summary';
+import { getEmbedStyle } from '../lib/embed';
 
 interface Props {
 	summary: string;
+	// Drawn on in order wherever the summary has a `[video]` line.
+	embeds?: string[];
 }
 
-const { summary } = Astro.props;
-const blocks = parseSummary(summary);
+const { summary, embeds = [] } = Astro.props;
+
+let taken = 0;
+const items = parseSummary(summary).map((block) =>
+	block.body === VIDEO_MARKER ? { embed: embeds[taken++] } : { block },
+);
 ---
 
 {
-	blocks.length > 0 && (
+	items.length > 0 && (
 		<div class="mt-10 space-y-8">
-			{blocks.map((block) => (
-				<div>
-					{block.heading && (
-						<h2 class="font-display mb-3 text-xl text-paper sm:text-2xl">{block.heading}</h2>
-					)}
-					<p class="text-lg leading-relaxed whitespace-pre-line text-paper-soft">{block.body}</p>
-				</div>
-			))}
+			{items.map((item) =>
+				item.embed ? (
+					<div
+						class="embed-frame relative mx-auto max-w-full overflow-hidden rounded-lg border border-line bg-ink-soft"
+						style={getEmbedStyle(item.embed)}
+					>
+						<Fragment set:html={item.embed} />
+					</div>
+				) : (
+					item.block && (
+						<div>
+							{item.block.heading && (
+								<h2 class="font-display mb-3 text-xl text-paper sm:text-2xl">{item.block.heading}</h2>
+							)}
+							<p class="text-lg leading-relaxed whitespace-pre-line text-paper-soft">{item.block.body}</p>
+						</div>
+					)
+				),
+			)}
 		</div>
 	)
 }
+
+<style>
+	/* Astro scopes styles per component, so the page template's copy of this
+	   rule doesn't reach an embed rendered in here. */
+	.embed-frame :global(iframe) {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

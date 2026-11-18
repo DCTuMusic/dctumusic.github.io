@@ -25,7 +25,11 @@ musicGenre: ["Orchestral"]           # same — new genres just work, no setup n
 featured: true                       # true = shows on the homepage (keep this to 3 entries at a time)
 cover: "./cover.jpg"                 # match whatever you named the image file
 embeds: []                           # optional — see "Embedding video/audio" below
+leadImage: "./room.jpg"              # optional — one photo above the video, see "Where each thing shows up" below
 gallery: ["./photo2.jpg", "./photo3.jpg"]   # optional extra images, drop the files in the same folder
+extraEmbeds: []                      # optional — more videos, placed with [video], see below
+photoCredit: "Photos: Jane Doe"      # optional caption under the gallery
+photoCreditZh: "攝影：Jane Doe"       # optional
 summary: "One or two sentences shown under the title."
 summaryZh: "中文簡介"                 # optional
 order: 6                             # controls display order — see "What order does" below
@@ -48,6 +52,74 @@ Blank lines inside that block become paragraph breaks on the page. This works th
 6. If a project isn't ready to publish yet, just don't create the folder — nothing needs "hiding."
 
 To remove a project, delete its folder.
+
+## Where each thing shows up on a project page
+
+Top to bottom, a portfolio project page is built like this. Every one of these is optional except the write-up — leave a field out and that part simply isn't drawn, no empty box:
+
+| On the page | Comes from |
+| --- | --- |
+| Lead photo | `leadImage` |
+| Main video | `embeds` (falls back to `cover` when there's no embed) |
+| Write-up, with headings | `summary` / `summaryZh` |
+| A video partway down the write-up | a `[video]` line in the write-up, pulling from `extraEmbeds` |
+| Photo gallery | `gallery` |
+| Photo credit line | `photoCredit` / `photoCreditZh` |
+| Any videos `[video]` didn't claim | `extraEmbeds` |
+| Credits | `credits` |
+
+### Headings inside the write-up
+
+Write a short line, then the paragraph under it, and that line is styled as a heading. Separate each section with a blank line:
+
+```
+summary: |
+  Concept & Sonic Palette
+  The score is built around a jazz drum solo…
+
+  Mixing & Delivery
+  Everything was mixed in…
+```
+
+A line becomes a heading only when it has text under it, runs under 70 characters, and doesn't end in punctuation — so an ordinary one-paragraph summary stays a plain paragraph. The headings are also stripped out of the page's search-engine description automatically.
+
+### Putting a video partway down the write-up
+
+Videos that belong below the opening one go in `extraEmbeds`, in the same paste-the-whole-iframe format as `embeds`. Where they land is decided by `[video]` lines in the text:
+
+```
+extraEmbeds:
+  - '<iframe … the walkthrough video …></iframe>'
+  - '<iframe … a SoundCloud track …></iframe>'
+
+summaryZh: |
+  概念與現場演出
+  內文……
+
+  [video]
+
+  多聲道系統與現場調整
+  內文……
+
+  [video]
+```
+
+- `[video]` has to sit **on its own line with a blank line above and below it** — tucked onto the end of a paragraph it just prints as the literal text `[video]`.
+- The first `[video]` takes the first entry in `extraEmbeds`, the second takes the second, and so on.
+- `summary` and `summaryZh` are counted separately, so the two languages can place the videos differently, or only one language can use them.
+- Any entry no `[video]` claimed is shown under the photo gallery instead — so leaving the markers out entirely puts every extra video below the photos.
+
+## 360 videos
+
+A 360 (spherical) video pasted as an ordinary embed plays flat: YouTube stopped giving embedded players their own 360 controls in early 2026. Add one line to the project's `index.md` and the site drives the camera itself:
+
+```
+video360: true
+```
+
+Visitors then drag the picture to look around, and the usual click-to-pause, double-click-for-fullscreen and keyboard shortcuts (space, F, M, arrow keys) work too. The strips along the top and bottom are left clear so YouTube's own title, subtitles, settings and scrubber stay clickable, and they resize with the player, including in fullscreen.
+
+Two things worth knowing: the setting only affects YouTube embeds in that project, and a 360 video always looks softer than a flat one because only a slice of the frame is on screen at a time — fullscreen is where it looks its best.
 
 ## Different cover for phones or for the homepage
 
@@ -126,7 +198,7 @@ The "(Scroll horizontally)" hint under any gallery with enough photos to scroll 
 
 ## Project page layout (Portfolio and Art)
 
-Both project types render in this order: cover image or video embed, then the gallery grid, then the long-form body text, then credits (if any). Click any gallery photo to view it enlarged.
+For portfolio projects, see "Where each thing shows up on a project page" above. Art pieces render in this order: cover image or video embed, then the gallery, then the write-up, then credits (if any). Click any gallery photo to view it enlarged.
 
 ## Credits
 
